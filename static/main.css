@@ -1,0 +1,124 @@
+*{
+    margin: 0px;
+    font-family: "Kalam", serif;
+    /* font-family: open-sans-my_font ; */
+
+}
+
+.login-form{
+    width: 30rem;
+    margin: auto;
+    display: block;
+    margin-top: 10rem;
+    height: 200px;
+
+}
+
+.login-fieldset{
+    height: 200px;
+
+}
+
+.login-form input{
+    width: 200px;
+    height: 30px;
+}
+
+.login-form button{
+    width: 60%;
+    font-size: 20px;
+    background-color: rgb(4, 52, 63);
+    border-radius: 3rem;
+    color: whitesmoke;
+
+}
+
+.login-form-legend{
+    font-size: 20px;
+    color: rgb(4, 52, 63);
+
+}
+
+.login-form p{
+    margin: auto;
+    display: block;
+    width: 80%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+.nav-bar{
+    width: 100%;
+    background-color: rgb(122, 211, 222);
+    height: 5rem;
+
+}
+
+.nav-bar tr{
+    border: 1px solid black;
+
+}
+.nav-bar td{
+    text-align: center;
+    font-size: 2rem;
+    color: rgb(4, 52, 63);
+    cursor: pointer;
+
+}
+
+.nav-bar td:hover{
+    border-bottom: 5px solid rgb(4, 52, 63);
+
+}
+
+.login-page-heading{
+    text-align: center;
+    font-size: 4rem;
+    color: rgb(4, 52, 63);
+
+}
+.home-page-heading{
+    text-align: center;
+    font-size: 4rem;
+    color: rgb(4, 52, 63);
+}
+
+.product-listings-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.product-listing{
+    width: 33%;
+    border: 1px solid grey;
+    padding: 1rem;
+    border-radius: 2rem;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+.product-listing-img{
+    width: 75%;
+    border-radius: 2rem;
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.product-listing-name, .product-listing-h-bid, .product-listing-owner{
+    font-size: 20px;
+    margin-left: 100px;
+}
+
+
+.product-listing-bid-btn{
+    text-align: center;
+    font-size: 20px;
+    width: 80px;
+    margin: auto;
+    background-color: rgb(4, 52, 63);
+    color: whitesmoke;
+    border-radius: 2rem;
+    cursor: pointer;
+}
