@@ -1,0 +1,21 @@
+{% extends "bidder/base.html" %}
+
+{% block title %}Place a Bid{% endblock title %}
+
+{% block content %}
+<h1>Place a Bid</h1>
+
+<h2>{{ item.name }}</h2>
+<p>{{ item.description }}</p>
+<p>Starting Price: ${{ item.starting_price }}</p>
+<p>Available Until: {{ item.deadline }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="bid_amount">Bid Amount:</label>
+    <input type="number" step="0.01" name="bid_amount" id="bid_amount" required>
+    <button type="submit">Submit Bid</button>
+</form>
+
+<a href="{% url 'browse_items' %}">Back to Items</a>
+{% endblock content %}

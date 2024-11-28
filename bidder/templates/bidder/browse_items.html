@@ -1,0 +1,22 @@
+{% extends "bidder/base.html" %}
+
+{% block title %}Browse Items{% endblock title %}
+
+{% block content %}
+<h1>Available Items</h1>
+<ul>
+    {% for item in items %}
+    <li>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        <p>Starting Price: ${{ item.starting_price }}</p>
+        <p>Available Until: {{ item.deadline }}</p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'place_bid' item.id %}">Place a Bid</a>
+        {% else %}
+            <p><a href="{% url 'login' %}">Log in to bid</a></p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

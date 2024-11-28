@@ -1,0 +1,40 @@
+{% extends "bidder/base.html" %}
+
+{% block title %}
+Handle Complaints
+{% endblock title %}
+
+{% block content %}
+<h1>Manage User Complaints</h1>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Filed By</th>
+            <th>Against</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ complaint.filed_by.username }}</td>
+            <td>{{ complaint.filed_against.username }}</td>
+            <td>{{ complaint.description }}</td>
+            <td>
+                <form method="post" action="{% url 'resolve_complaint' complaint.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Resolve</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No complaints to handle.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

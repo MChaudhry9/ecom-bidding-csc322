@@ -3,13 +3,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SWEBAY</title>
-    <link rel="stylesheet" href="{% static 'main.css'%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SWEBAY{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 <body>
-{% block content %}
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'browse_items' %}">Browse Items</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'list_item' %}">List Item</a></li>
+                <li><a href="{% url 'deposit_money' %}">Deposit Money</a></li>
+                <li><a href="{% url 'withdraw_money' %}">Withdraw Money</a></li>
+                <li><a href="{% url 'file_complaint' user.id %}">File Complaint</a></li>
+                <li><a href="{% url 'handle_complaints' %}">Handle Complaints</a></li>
+                <li><a href="{% url 'apply_to_become_user' %}">Apply to Become a User</a></li>
+                <form action="{% url 'logout' %}" method="POST">
+                    <button>Logout</button>
+                    {% csrf_token %}
+                </form>
+                
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register_user' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
-{% endblock content %}
-
+    <!-- Main Content -->
+    <div>
+        {% block content %}
+        {% endblock content %}
+    </div>
 </body>
 </html>

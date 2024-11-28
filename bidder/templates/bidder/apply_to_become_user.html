@@ -1,0 +1,16 @@
+{% extends 'bidder/base.html' %}
+
+{% block content %}
+<h1>Apply to Become a User</h1>
+<p>To apply, please answer the anti-bot question below:</p>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="anti_bot_answer">What is 9 + 10?</label>
+    <input type="text" name="anti_bot_answer" id="anti_bot_answer" required>
+    <button type="submit">Submit Application</button>
+</form>
+
+<a href="{% url 'browse_items' %}">Back to Browse Items</a>
+{% endblock %}
+

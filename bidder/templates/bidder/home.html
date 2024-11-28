@@ -1,62 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" href="main.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+{% extends 'bidder/base.html' %}
 
-    </head>
-    <body>
-        <div class="home-page">
-            <table class="nav-bar">
-                <tr>
-                    <td>Home</td>
-                    <td>Settings</td>
-                    <td>My Products</td>
-                    <td>My Bids</td>
-                    <td>Logout</td>
-                </tr>
-            </table>
-            <div class="home-page-body">
-                <h2 class="home-page-heading">Products</h2>
+{% block title %}
+Welcome to SWEBAY
+{% endblock title %}
 
+{% block content %}
+<h1>Welcome to SWEBAY</h1>
+<p>Experience secure and seamless e-bidding!</p>
 
-                <div class="product-listings-container">
-
-                    <div class="product-listing">
-                        <img class="product-listing-img" src="/images/bitcoing.avif">
-                        <p class="product-listing-name">Name: Bitcoin Miner</p>
-                        <p class="product-listing-owner">Owner: John Doe</p>
-                        <p class="product-listing-h-bid">Heighest Bid: $200.00</p>
-                        <p class="product-listing-bid-btn"><a class="product-listing-bid-link">Bid</a></p>
-                    </div>
-
-                    <div class="product-listing">
-                        <img class="product-listing-img" src="/images/bitcoing.avif">
-                        <p class="product-listing-name">Name: Bitcoin Miner</p>
-                        <p class="product-listing-owner">Owner: John Doe</p>
-                        <p class="product-listing-h-bid">Heighest Bid: $200.00</p>
-                        <p class="product-listing-bid-btn"><a class="product-listing-bid-link">Bid</a></p>
-                    </div>
-
-                    <div class="product-listing">
-                        <img class="product-listing-img" src="/images/bitcoing.avif">
-                        <p class="product-listing-name">Name: Bitcoin Miner</p>
-                        <p class="product-listing-owner">Owner: John Doe</p>
-                        <p class="product-listing-h-bid">Heighest Bid: $200.00</p>
-                        <p class="product-listing-bid-btn"><a class="product-listing-bid-link">Bid</a></p>
-                    </div>
-
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </body>
-</html>
+<!-- Add buttons or links to guide users -->
+<div style="margin-top: 20px;">
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Go to your Dashboard</a></li>
+            <li><a href="{% url 'browse_items' %}">Browse Items</a></li>
+        </ul>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register_user' %}">Register</a>.</p>
+    {% endif %}
+</div>
+{% endblock content %}

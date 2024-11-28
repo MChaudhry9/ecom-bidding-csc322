@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rate User</title>
+</head>
+<body>
+    <h1>Rate {{ rated_user.username }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="score">Score (1-5):</label>
+        <input type="number" min="1" max="5" name="score" required><br>
+        <label for="comment">Comment:</label>
+        <textarea name="comment"></textarea><br>
+        <button type="submit">Submit Rating</button>
+    </form>
+</body>
+</html>

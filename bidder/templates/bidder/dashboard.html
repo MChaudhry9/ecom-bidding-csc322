@@ -1,0 +1,74 @@
+{% extends "bidder/base.html" %}
+
+{% block title %}
+Dashboard - {{ user.username }}
+{% endblock title %}
+
+{% block content %}
+<h1>Welcome, {{ user.username }}</h1>
+
+<!-- Display account balance -->
+<p><strong>Account Balance:</strong> ${{ account_balance }}</p>
+
+<!-- Display VIP status -->
+<p><strong>Status:</strong> {{ user_status }}</p>
+
+
+<!-- Section for user's listed items -->
+<h2>Your Listed Items</h2>
+<ul>
+    {% for item in items %}
+        <li>
+            <strong>{{ item.name }}</strong> - ${{ item.starting_price }} 
+            {% if item.is_available %}
+                <em>(Available)</em>
+            {% else %}
+                <em>(Sold/Rented)</em>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No items listed.</li>
+    {% endfor %}
+</ul>
+
+<!-- Section for user's bids -->
+<h2>Your Bids</h2>
+<ul>
+    {% for bid in bids %}
+        <li>
+            <strong>Item:</strong> {{ bid.item.name }} - 
+            <strong>Bid Amount:</strong> ${{ bid.amount }}
+        </li>
+    {% empty %}
+        <li>No bids placed.</li>
+    {% endfor %}
+</ul>
+
+<!-- Section for transactions -->
+<h2>Your Transactions</h2>
+<ul>
+    {% for transaction in transactions %}
+        <li>
+            <strong>Item:</strong> {{ transaction.item.name }} - 
+            <strong>Amount:</strong> ${{ transaction.amount }} - 
+            <strong>Date:</strong> {{ transaction.completed }}
+        </li>
+    {% empty %}
+        <li>No transactions available.</li>
+    {% endfor %}
+</ul>
+
+<!-- Section for complaints -->
+<h2>Your Complaints</h2>
+<ul>
+    {% for complaint in complaints %}
+        <li>
+            <strong>Against:</strong> {{ complaint.against_user.username }} - 
+            <strong>Description:</strong> {{ complaint.description }}
+        </li>
+    {% empty %}
+        <li>No complaints filed.</li>
+    {% endfor %}
+</ul>
+{% endblock content %}
+

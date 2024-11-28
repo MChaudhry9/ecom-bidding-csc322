@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from bidder import views
 
 urlpatterns = [
+    path('', views.home_view, name='home'),
     path('admin/', admin.site.urls),
-    path('', include('bidder.urls')),
+    path('bidder/', include('bidder.urls')),
+    
 ]
