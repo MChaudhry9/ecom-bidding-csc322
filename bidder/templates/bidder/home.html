@@ -11,11 +11,7 @@ Welcome to SWEBAY
 <!-- Add buttons or links to guide users -->
 <div style="margin-top: 20px;">
     {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-        <ul>
-            <li><a href="{% url 'dashboard' %}">Go to your Dashboard</a></li>
-            <li><a href="{% url 'browse_items' %}">Browse Items</a></li>
-        </ul>
+        <p>Hello, {{ user.username }}!
     {% else %}
         <p>Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register_user' %}">Register</a>.</p>
     {% endif %}
