@@ -22,4 +22,6 @@ urlpatterns = [
     path('handle_complaints/', views.handle_complaints, name='handle_complaints'),
     path("resolve_complaint/<int:complaint_id>/", views.resolve_complaint, name="resolve_complaint"),
     path("register/", views.register_user, name="register_user"),
+    path('vip/', views.vip, name='vip'),
+
 ]

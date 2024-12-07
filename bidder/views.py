@@ -22,6 +22,11 @@ def browse_items(request):
 
 
 
+
+def vip(request):
+    return render(request, 'bidder/vip.html')  # Make sure the path matches the actual file location
+
+
 @login_required
 def apply_to_become_user(request):
     """View for visitors to apply to become registered users."""
