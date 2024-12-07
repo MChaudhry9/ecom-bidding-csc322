@@ -1,68 +1,101 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}SWEBAY{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
+    {% if user.is_authenticated %}
+        {% comment %} logged in {% endcomment %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Browse Items - Swebay</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+        <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#4A90E2" data-border-radius='small'></script>
+    {% else %}
+        {% comment %} not logged in {% endcomment %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Swebay - Your Secure Online Auction Platform</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+        <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    {% endif %}
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            {% comment %} <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'browse_items' %}">Browse Items</a></li> {% endcomment %}
-            <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-                <nav class="mx-auto max-w-8xl px-6 lg:px-8">
-                    <div class="flex h-16 items-center justify-between">
-                        <div class="flex items-center">
-                            <a href="/" class="flex items-center">
-                                <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
-                                <span class="ml-3 text-xl font-semibold text-custom">Swebay</span>
-                            </a>
+<body class="bg-gray-50">
+    {% if user.is_authenticated %}
+        <nav class="bg-white border-b border-gray-200">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <div class="flex-shrink-0 flex items-center">
+                            <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
                         </div>
-                        <div class="flex items-center gap-6">
-                            <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
-                            <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
-                            <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
-                            <a href="{% url 'login' %}">
+                        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                            <a href="{% url 'browse_items' %}" class="border-custom text-custom inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Browse Items</a>
+                            <a href="{% url 'list_item' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Sell</a>
+                            <a href="#" class="border-custom text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Auctions</a>
+                            <a href="{% url 'dashboard' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Dashboard</a>
+                            <a href="{% url 'vip' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">VIP Auctions</a>
+                            <a href="{% url 'deposit_money' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Deposit Money</a>
+                            <a href="{% url 'withdraw_money' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Withdraw Money</a>
+                            <a href="{% url 'file_complaint' user.id %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">File Complaint</a>
+                            <a href="{% url 'handle_complaints' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Handle Complaints</a>
+                            <a href="{% url 'apply_to_become_user' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Apply to Become a User</a>
+                            <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Help</a>
+                            {% comment %} <a href="{% url 'login' %}">
                                 <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
                                     Login
                                 </button>
-                            </a>
-                            
+                            </a> {% endcomment %}
+                            <form action="{% url 'logout' %}" method="POST" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                <button>Logout</button> 
+                                {% csrf_token %}
+                            </form>
+
                         </div>
                     </div>
-                </nav>
-            </header>
-            {% comment %} make the below the same style as the top {% endcomment %}
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'list_item' %}">List Item</a></li>
-                <li><a href="{% url 'deposit_money' %}">Deposit Money</a></li>
-                <li><a href="{% url 'withdraw_money' %}">Withdraw Money</a></li>
-                <li><a href="{% url 'file_complaint' user.id %}">File Complaint</a></li>
-                <li><a href="{% url 'handle_complaints' %}">Handle Complaints</a></li>
-                <li><a href="{% url 'apply_to_become_user' %}">Apply to Become a User</a></li>
-                <form action="{% url 'logout' %}" method="POST">
-                    <button>Logout</button>
-                    {% csrf_token %}
-                </form>
-                
-            {% comment %} {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register_user' %}">Register</a></li>
-            {% endcomment %}
-            {% endif %} 
-        </ul>
-    </nav>
-
+                    <div class="flex items-center">
+                        <button type="button" class="bg-white p-1 text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-bell text-xl"></i>
+                        </button>
+                        <div class="ml-4 flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://creatie.ai/ai/api/search-image?query=A professional headshot of a person with a friendly smile, wearing business casual attire, against a neutral background. The lighting is soft and flattering, creating a warm and approachable portrait suitable for a profile picture.&width=80&height=80&orientation=squarish&flag=6e31ecd4-b642-4c02-8785-ce876ef0f2fd" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% else %}
+        <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+            <nav class="mx-auto max-w-8xl px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="/" class="flex items-center">
+                            <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                            <span class="ml-3 text-xl font-semibold text-custom">Swebay</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
+                        <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
+                        <a href="{% url 'vip' %}" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
+                        <a href="{% url 'login' %}">
+                            <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
+                                Login
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    {% endif %}
+    
     <!-- Main Content -->
     <div>
         {% block content %}
-
         {% endblock content %}
-    </div>
+
 </body>
 </html>

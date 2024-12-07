@@ -1,4 +1,283 @@
 {% extends "bidder/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% comment %} <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">     {% endcomment %}
+    <title>Swebay - Online Auction</title>
+    {% comment %} <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#2563eb" data-border-radius='small'></script> {% endcomment %}
+</head>
+<body class="bg-gray-50">
+    {% comment %} nav bar is below {% endcomment %}
+    {% comment %} <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">                        <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                    </div>                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="#" class="border-custom text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Auctions</a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Sell</a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Categories</a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Help</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button type="button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">                        <i class="fas fa-bell text-xl"></i>
+                    </button>
+                    <div class="ml-3 relative">                        <div>
+                            <button type="button" class="bg-white rounded-full flex text-sm focus:outline-none">                                <img class="h-8 w-8 rounded-full" src="https://creatie.ai/ai/api/search-image?query=A professional headshot of a person with a friendly smile, wearing business casual attire, against a neutral background&width=32&height=32&orientation=squarish&flag=1797391d-9e13-4bda-98b1-bc4d1c4e67c4" alt="">                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>        </div>
+    </nav> {% endcomment %}
+    
+    <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-12 gap-8">            <div class="col-span-8">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-6">                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="flex-1">
+                                <h1 class="text-2xl font-bold text-gray-900">{{ item.name }}</h1>
+                                <div class="mt-2 flex items-center text-sm text-gray-500">                                    <i class="fas fa-eye mr-2"></i>
+                                    <span>234 watching</span>                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-gavel mr-2"></i>
+                                    <span>45 bids</span>
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span>New York, USA</span>
+                                </div>
+                            </div>                            <button class="text-custom hover:text-custom-600">
+                                <i class="far fa-heart text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-8">                            <div class="aspect-w-4 aspect-h-3">
+                                <img src="https://creatie.ai/ai/api/search-image?query=A professional product photo of a vintage brown leather camera bag with brass hardware and multiple compartments, displayed on a clean white background with soft shadows&width=600&height=450&orientation=landscape&flag=f0773b0d-691e-437c-939d-404a3f41ca4d" alt="Product Image" class="object-cover rounded-lg">                            </div>
+                            <div>
+                                <div class="bg-gray-50 rounded-lg p-6 mb-6">                                    <div class="flex items-baseline">
+                                        <span class="text-2xl font-bold text-custom">${{ item.starting_price }}</span>
+                                        <span class="ml-2 text-sm text-gray-500">Current Bid</span>
+                                    </div>                                    <div class="mt-4">
+                                        <div class="flex items-center text-sm text-gray-500 mb-2">                                            <i class="far fa-clock mr-2"></i>
+                                            <span>Time left:</span>
+                                            <span class="ml-2 font-medium text-gray-900">2d 14h 35m</span>
+                                        </div>                                        <div class="text-sm text-gray-500">
+                                            Auction ends on {{ item.deadline }} EST
+                                        </div>                                    </div>
+                                </div>
+
+                                <form method="POST" class="space-y-4"> 
+                                    {% csrf_token %}
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="bid_amount" class="block text-sm font-medium text-gray-700 mb-1">Your Bid Amount</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">                                                
+                                                <span class="text-gray-500 sm:text-sm">$</span> 
+                                            </div>
+                                            
+                                            <input type="number" step="0.01" name="amount" id="bid_amount" class="block w-full pl-7 pr-12 !rounded-button border-gray-300 focus:ring-custom focus:border-custom" placeholder="Enter bid amount" required>                                        
+                                        </div>
+                                            <p class="mt-1 text-sm text-gray-500">Minimum bid: ${{ item.starting_price }}</p>
+                                    </div>
+                                    
+                                    <div class="flex space-x-2">                                        
+                                        <button class="flex-1 py-2 px-4 !rounded-button border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">+$5</button>
+                                        <button class="flex-1 py-2 px-4 !rounded-button border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">+$10</button>
+                                        <button class="flex-1 py-2 px-4 !rounded-button border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">+$50</button>
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full py-3 px-4 !rounded-button bg-custom text-white text-sm font-medium hover:bg-custom-600"> 
+                                        Place Bid
+                                    </button>
+                                    </div>    
+                                    </form>              
+                                    
+                                    </div>
+                                </div>
+                        
+                        <div class="mt-8">                            <h2 class="text-lg font-medium text-gray-900 mb-4">Item Description</h2>
+                            <div class="prose max-w-none">                                <p>{{ item.description }}</p>                   
+                                    {% comment %} <ul>
+                                    <li>Multiple compartments for camera body and lenses</li>                                    
+                                    <li>Padded interior with adjustable dividers</li>
+                                    <li>Brass hardware and reinforced stitching</li>                                    
+                                    <li>Comfortable shoulder strap with padding</li>
+                                    <li>Weather-resistant design</li>                                
+                                    </ul>
+                                    <p>Condition: Excellent vintage condition with natural leather patina. All zippers and clasps work perfectly.</p>        {% endcomment %}                    
+                                    </div> 
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 px-6 py-4">                        <h2 class="text-lg font-medium text-gray-900 mb-4">Bid History</h2>
+                        <div class="overflow-hidden">                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bidder</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">j***n</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$425.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">p***r</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$420.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 hours ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">m***a</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$415.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5 hours ago</td>
+                                    </tr>
+                                </tbody>
+                            </table>                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-span-4">                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Seller Information</h2>
+                        <div class="flex items-center mb-4">
+                            <img class="h-12 w-12 rounded-full" src="https://creatie.ai/ai/api/search-image?query=A professional headshot of a middle-aged man with glasses, wearing a casual business shirt, against a neutral background&width=48&height=48&orientation=squarish&flag=31a1c066-3ab7-47fe-bc74-cbb56e484768" alt="Seller">                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-gray-900">David Thompson</h3>                                <div class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    <span class="ml-1 text-sm text-gray-500">(245)</span>
+                                </div>                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">                            <div>
+                                <h3 class="text-sm font-medium text-gray-900">Item Location</h3>                                <p class="mt-1 text-sm text-gray-500">New York, United States</p>
+                            </div>                            
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900">Shipping</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    $15.00 Standard Shipping<br>                                    $25.00 Express Shipping
+                                </p>
+                            </div>                            
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900">Payment Methods</h3>
+                                <div class="mt-2 flex space-x-2">
+                                    <i class="fab fa-cc-visa text-2xl text-gray-400"></i>
+                                    <i class="fab fa-cc-mastercard text-2xl text-gray-400"></i>
+                                    <i class="fab fa-cc-paypal text-2xl text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                </div>
+                
+                <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-6">                        <h2 class="text-lg font-medium text-gray-900 mb-4">Similar Items</h2>
+                        <div class="space-y-4">                            <div class="flex items-center">
+                                <img src="https://creatie.ai/ai/api/search-image?query=A professional product photo of a modern black leather camera bag with silver hardware, displayed on a clean white background&width=80&height=80&orientation=squarish&flag=fdb55f66-114c-4411-8da2-e0ebd758ec54" alt="Similar item" class="h-20 w-20 object-cover rounded">                                <div class="ml-3 flex-1">
+                                    <h3 class="text-sm font-medium text-gray-900">Modern Camera Bag</h3>
+                                    <p class="text-sm text-gray-500">Current bid: $350</p>
+                                </div>                            </div>
+                            <div class="flex items-center">
+                                <img src="https://creatie.ai/ai/api/search-image?query=A professional product photo of a canvas and leather camera messenger bag in olive green, displayed on a clean white background&width=80&height=80&orientation=squarish&flag=8ce527e5-acc2-4b49-a3c5-04b92b3d2e3c" alt="Similar item" class="h-20 w-20 object-cover rounded">                                <div class="ml-3 flex-1">
+                                    <h3 class="text-sm font-medium text-gray-900">Canvas Camera Bag</h3>
+                                    <p class="text-sm text-gray-500">Current bid: $280</p>
+                                </div>                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">            <div class="grid grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900">About</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Company</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Careers</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Press</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900">Support</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Help Center</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Safety Center</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Community</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>                    <h3 class="text-sm font-medium text-gray-900">Legal</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Privacy Policy</a>
+                        </li>                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Terms of Service</a>                        </li>
+                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">Cookie Policy</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>                    <h3 class="text-sm font-medium text-gray-900">Follow Us</h3>
+                    <ul class="mt-4 space-y-4">                        <li>
+                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
+                                <i class="fab fa-twitter mr-2"></i>
+                                Twitter
+                            </a>
+                        </li>
+                        <li>                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
+                                <i class="fab fa-facebook mr-2"></i>
+                                Facebook
+                            </a>
+                        </li>
+                        <li>                            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
+                                <i class="fab fa-instagram mr-2"></i>
+                                Instagram
+                            </a>
+                        </li>
+                    </ul>                </div>
+            </div>
+            
+            <div class="mt-8 border-t border-gray-200 pt-8 flex items-center justify-between">                <p class="text-sm text-gray-500">&copy; 2023 Swebay. All rights reserved.</p>
+                <div class="flex space-x-6">                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock content %}
+
+
+{% comment %} ------------------------------------------- {% endcomment %}
+{% comment %} {% extends "bidder/base.html" %}
 
 {% block title %}Place a Bid{% endblock title %}
 
@@ -15,7 +294,8 @@
     <label for="bid_amount">Bid Amount:</label>
     <input type="number" step="0.01" name="bid_amount" id="bid_amount" required>
     <button type="submit">Submit Bid</button>
-</form>
+</form> 
 
 <a href="{% url 'browse_items' %}">Back to Items</a>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
+

@@ -1,0 +1,36 @@
+<head>
+    {% comment %} not logged in {% endcomment %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swebay - Your Secure Online Auction Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-gray-50">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <nav class="mx-auto max-w-8xl px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                        <span class="ml-3 text-xl font-semibold text-custom">Swebay</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
+                    <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
+                    <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
+                    <a href="{% url 'login' %}">
+                        <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
+                            Login
+                        </button>
+                    </a>
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+</body>

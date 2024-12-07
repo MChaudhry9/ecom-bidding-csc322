@@ -1,0 +1,149 @@
+{% extends "bidder/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>VIP Auctions | Swebay</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"><script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+<script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#B8860B" data-border-radius='small'></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<nav class="bg-white border-b border-gray-200">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">    <div class="flex justify-between h-16">
+      <div class="flex">
+        <div class="flex-shrink-0 flex items-center">
+          <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="hidden md:ml-4 md:flex md:items-center md:space-x-4">          <button class="!rounded-button bg-custom text-white px-4 py-2 text-sm font-medium">
+            <i class="fas fa-crown mr-2"></i>VIP Access
+          </button>
+          <button class="!rounded-button text-gray-700 hover:text-custom px-3 py-2 text-sm font-medium">            <i class="fas fa-bell mr-2"></i>
+          </button>
+          <button class="!rounded-button text-gray-700 hover:text-custom px-3 py-2 text-sm font-medium">            <i class="fas fa-user-circle mr-2"></i>Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav><main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">VIP Auctions: Exclusive Deals for You</h1>
+    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Experience luxury bidding with premium benefits and exclusive access to high-end items.</p>  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-12">
+    <div class="grid md:grid-cols-4 gap-8">      <div class="text-center">
+        <i class="fas fa-clock text-custom text-3xl mb-4"></i>
+        <h3 class="font-medium text-gray-900 mb-2">Priority Access</h3>
+        <p class="text-gray-600 text-sm">24-hour early access to new auctions</p>
+      </div>
+      <div class="text-center">        <i class="fas fa-gem text-custom text-3xl mb-4"></i>
+        <h3 class="font-medium text-gray-900 mb-2">Extended Bidding</h3>        <p class="text-gray-600 text-sm">Extra time on auction endings</p>
+      </div>
+      <div class="text-center">
+        <i class="fas fa-tag text-custom text-3xl mb-4"></i>
+        <h3 class="font-medium text-gray-900 mb-2">Special Terms</h3>
+        <p class="text-gray-600 text-sm">Flexible payment options</p>      </div>
+      <div class="text-center">
+        <i class="fas fa-headset text-custom text-3xl mb-4"></i>
+        <h3 class="font-medium text-gray-900 mb-2">VIP Support</h3>
+        <p class="text-gray-600 text-sm">Dedicated customer service</p>
+      </div>
+    </div>
+    <div class="text-center mt-8">      <button class="!rounded-button bg-custom text-white px-6 py-3 text-sm font-medium">Learn More About VIP Benefits</button>
+    </div>  </div>
+
+  <div class="flex items-center justify-between mb-8">
+    <h2 class="text-2xl font-bold text-gray-900">Featured Auctions</h2>    <div class="flex space-x-4">
+      <button class="!rounded-button bg-white border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">        New Arrivals
+      </button>
+      <button class="!rounded-button bg-white border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">        Ending Soon
+      </button>
+      <select class="!rounded-button bg-white border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700">        <option>All Categories</option>
+        <option>Jewelry</option>
+        <option>Watches</option>
+        <option>Art</option>        <option>Collectibles</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <img src="https://creatie.ai/ai/api/search-image?query=A luxury watch photographed on a clean white surface with soft lighting, focusing on the intricate details of the timepiece. The watch features a gold case with a leather strap, showcasing craftsmanship and elegance&width=400&height=300&orientation=landscape&flag=c48f751e-9167-4d84-b721-ddd27c8e7529" class="w-full h-48 object-cover" alt="Luxury Watch">      <div class="p-6">
+        <h3 class="font-medium text-gray-900 mb-2">Vintage Luxury Timepiece</h3>
+        <p class="text-sm text-gray-600 mb-4">Limited Edition Collection</p>
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <p class="text-sm text-gray-500">Current Bid</p>
+            <p class="text-xl font-bold text-custom">$12,500</p>
+          </div>
+          <div class="text-right">            <p class="text-sm text-gray-500">Time Left</p>
+            <p class="text-sm font-medium text-gray-900">2h 45m</p>
+          </div>        </div>
+        <button class="!rounded-button w-full bg-custom text-white py-2 text-sm font-medium">Place Bid</button>
+      </div>    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <img src="https://creatie.ai/ai/api/search-image?query=An elegant diamond necklace arranged on a pristine white surface with professional studio lighting. The piece features brilliant cut diamonds in a classic setting, emphasizing luxury and sophistication&width=400&height=300&orientation=landscape&flag=b4cbd573-af3b-416b-910e-c27e8ab7b2d2" class="w-full h-48 object-cover" alt="Diamond Necklace">      <div class="p-6">
+        <h3 class="font-medium text-gray-900 mb-2">Diamond Necklace</h3>
+        <p class="text-sm text-gray-600 mb-4">18K White Gold Setting</p>
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <p class="text-sm text-gray-500">Current Bid</p>
+            <p class="text-xl font-bold text-custom">$28,750</p>
+          </div>
+          <div class="text-right">            <p class="text-sm text-gray-500">Time Left</p>
+            <p class="text-sm font-medium text-gray-900">4h 15m</p>
+          </div>        </div>
+        <button class="!rounded-button w-full bg-custom text-white py-2 text-sm font-medium">Place Bid</button>
+      </div>    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <img src="https://creatie.ai/ai/api/search-image?query=A modern abstract painting displayed against a pure white background with perfect lighting. The artwork features bold colors and geometric shapes, creating a striking contemporary piece&width=400&height=300&orientation=landscape&flag=a9c54938-ec71-4edc-a176-da8836052f76" class="w-full h-48 object-cover" alt="Abstract Art">      <div class="p-6">
+        <h3 class="font-medium text-gray-900 mb-2">Contemporary Abstract Art</h3>
+        <p class="text-sm text-gray-600 mb-4">Original Canvas Painting</p>
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <p class="text-sm text-gray-500">Current Bid</p>
+            <p class="text-xl font-bold text-custom">$15,900</p>
+          </div>
+          <div class="text-right">            <p class="text-sm text-gray-500">Time Left</p>
+            <p class="text-sm font-medium text-gray-900">1h 30m</p>
+          </div>        </div>
+        <button class="!rounded-button w-full bg-custom text-white py-2 text-sm font-medium">Place Bid</button>
+      </div>    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <img src="https://creatie.ai/ai/api/search-image?query=A rare vintage camera photographed on a clean white surface with professional lighting. The camera shows beautiful brass details and leather covering, representing both history and collectible value&width=400&height=300&orientation=landscape&flag=4f5b2981-7fa7-4b18-8d94-8b3ad7f1eff4" class="w-full h-48 object-cover" alt="Vintage Camera">      <div class="p-6">
+        <h3 class="font-medium text-gray-900 mb-2">Rare Vintage Camera</h3>
+        <p class="text-sm text-gray-600 mb-4">Limited Collection Piece</p>
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <p class="text-sm text-gray-500">Current Bid</p>
+            <p class="text-xl font-bold text-custom">$8,200</p>
+          </div>
+          <div class="text-right">            <p class="text-sm text-gray-500">Time Left</p>
+            <p class="text-sm font-medium text-gray-900">5h 20m</p>
+          </div>        </div>
+        <button class="!rounded-button w-full bg-custom text-white py-2 text-sm font-medium">Place Bid</button>
+      </div>    </div>
+  </div>
+</main>
+
+<footer class="bg-white border-t border-gray-200 fixed bottom-0 w-full">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">    <div class="flex justify-between py-4">
+      <button class="!rounded-button text-gray-700 hover:text-custom px-4 py-2 text-sm font-medium">        <i class="fas fa-heart mr-2"></i>Watchlist
+      </button>
+      <button class="!rounded-button text-gray-700 hover:text-custom px-4 py-2 text-sm font-medium">        <i class="fas fa-history mr-2"></i>Bid History
+      </button>
+      <button class="!rounded-button text-gray-700 hover:text-custom px-4 py-2 text-sm font-medium">        <i class="fas fa-headset mr-2"></i>VIP Support
+      </button>
+      <button class="!rounded-button text-gray-700 hover:text-custom px-4 py-2 text-sm font-medium">        <i class="fas fa-cog mr-2"></i>Settings
+      </button>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+{% endblock content %}
