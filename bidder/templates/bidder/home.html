@@ -4,7 +4,129 @@
 Welcome to SWEBAY
 {% endblock title %}
 
+
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swebay - Your Secure Online Auction Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-gray-50">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <nav class="mx-auto max-w-8xl px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                        <span class="ml-3 text-xl font-semibold text-custom">Swebay</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
+                    <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
+                    <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
+                    <a href="{% url 'login' %}">
+                        <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
+                            Login
+                        </button>
+                    </a>
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="mt-16">
+        <section class="relative h-[600px] overflow-hidden">
+            <img src="https://creatie.ai/ai/api/search-image?query=A professional and modern auction house interior with elegant lighting, featuring premium items on display. The scene captures luxury watches, art pieces, and collectibles arranged in a sophisticated manner. The environment suggests exclusivity and high-end bidding&width=1440&height=600&orientation=landscape&flag=22f8ae4a-0f03-4af3-9624-09d17cee8b25" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
+            <div class="absolute inset-0 bg-gradient-to-r from-custom/90 to-custom/70"></div>
+            <div class="relative mx-auto max-w-8xl px-6 lg:px-8 h-full flex items-center">
+                <div class="max-w-2xl">
+                    <h1 class="text-5xl font-bold text-white mb-6">Welcome to Swebay: Your Secure Online Auction Platform</h1>
+                    <p class="text-xl text-white/90 mb-8">Discover unique items, bid with confidence, and join our thriving community of buyers and sellers.</p>
+                    <button class="!rounded-button bg-yellow-400 text-custom px-8 py-3 text-lg font-semibold hover:bg-yellow-300">Get Started</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white">
+            <div class="mx-auto max-w-8xl px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 bg-custom/10 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-search text-xl text-custom"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Browse Items</h3>
+                        <p class="text-gray-600">Explore our vast collection of authenticated items from trusted sellers worldwide.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 bg-custom/10 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-crown text-xl text-custom"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">VIP Auctions</h3>
+                        <p class="text-gray-600">Access exclusive auctions featuring premium items and special collections.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 bg-custom/10 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-history text-xl text-custom"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Transaction History</h3>
+                        <p class="text-gray-600">Track your bidding history and manage your transactions securely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 py-12">
+        <div class="mx-auto max-w-8xl px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                    <p class="mt-4 text-gray-400">Your trusted platform for online auctions and secure bidding.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <p class="text-center text-gray-400">&copy; 2024 Swebay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock content %}
+{% comment %} ------------------------------------------------------ {% endcomment %}
+{% comment %} {% block content %}
 <h1>Welcome to SWEBAY</h1>
 <p>Experience secure and seamless e-bidding!</p>
 
@@ -16,4 +138,4 @@ Welcome to SWEBAY
         <p>Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register_user' %}">Register</a>.</p>
     {% endif %}
 </div>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
