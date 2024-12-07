@@ -11,8 +11,32 @@
     <!-- Navigation Bar -->
     <nav>
         <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'browse_items' %}">Browse Items</a></li>
+            {% comment %} <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'browse_items' %}">Browse Items</a></li> {% endcomment %}
+            <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+                <nav class="mx-auto max-w-8xl px-6 lg:px-8">
+                    <div class="flex h-16 items-center justify-between">
+                        <div class="flex items-center">
+                            <a href="/" class="flex items-center">
+                                <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">
+                                <span class="ml-3 text-xl font-semibold text-custom">Swebay</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
+                            <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
+                            <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
+                            <a href="{% url 'login' %}">
+                                <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
+                                    Login
+                                </button>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            {% comment %} make the below the same style as the top {% endcomment %}
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a href="{% url 'list_item' %}">List Item</a></li>
@@ -26,10 +50,11 @@
                     {% csrf_token %}
                 </form>
                 
-            {% else %}
+            {% comment %} {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register_user' %}">Register</a></li>
-            {% endif %}
+            {% endcomment %}
+            {% endif %} 
         </ul>
     </nav>
 
