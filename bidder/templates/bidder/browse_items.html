@@ -93,7 +93,7 @@
                 </div>
                 <div class="p-4">
                     <span class="inline-flex items-center px-2.5 py-0.5 !rounded-button text-xs font-medium bg-green-100 text-green-800">
-                        {{ item.deadline }}
+                        {{ item.deadline }} EST
                     </span>
                     <h3 class="mt-2 text-sm font-medium text-gray-900">{{ item.name }}</h3>
                     <div class="mt-2 flex items-center justify-between">
@@ -110,7 +110,7 @@
                         {% else %}
                         <a href="{% url 'login' %}">
                         <button class="!rounded-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90">
-                            Log in to place Bid
+                            Log In To Place Bid
                         </button>
                         </a>
                         {% endif %}
