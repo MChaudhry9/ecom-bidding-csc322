@@ -22,7 +22,7 @@ def browse_items(request):
 
 
 
-
+# to render vip page
 def vip(request):
     return render(request, 'bidder/vip.html')  # Make sure the path matches the actual file location
 
