@@ -1,4 +1,6 @@
 {% extends "bidder/base.html" %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +11,20 @@
 <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#B8860B" data-border-radius='small'></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
-<nav class="bg-white border-b border-gray-200">
+{% comment %} <nav class="bg-white border-b border-gray-200">
   <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">    <div class="flex justify-between h-16">
       <div class="flex">
         <div class="flex-shrink-0 flex items-center">
           <img class="h-8 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay">        </div>
       </div>
       <div class="flex items-center">
-        <div class="hidden md:ml-4 md:flex md:items-center md:space-x-4">          <button class="!rounded-button bg-custom text-white px-4 py-2 text-sm font-medium">
+        
+        <div class="hidden md:ml-4 md:flex md:items-center md:space-x-4">          
+            <button class="!rounded-button bg-custom text-white px-4 py-2 text-sm font-medium">
+
             <i class="fas fa-crown mr-2"></i>VIP Access
           </button>
+
           <button class="!rounded-button text-gray-700 hover:text-custom px-3 py-2 text-sm font-medium">            <i class="fas fa-bell mr-2"></i>
           </button>
           <button class="!rounded-button text-gray-700 hover:text-custom px-3 py-2 text-sm font-medium">            <i class="fas fa-user-circle mr-2"></i>Account
@@ -27,7 +33,8 @@
       </div>
     </div>
   </div>
-</nav><main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+</nav> {% endcomment %}
+<main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
   <div class="text-center mb-12">
     <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">VIP Auctions: Exclusive Deals for You</h1>
     <p class="text-lg text-gray-600 max-w-3xl mx-auto">Experience luxury bidding with premium benefits and exclusive access to high-end items.</p>  </div>
@@ -145,3 +152,4 @@
 </footer>
 </body>
 </html>
+{% endblock content %}

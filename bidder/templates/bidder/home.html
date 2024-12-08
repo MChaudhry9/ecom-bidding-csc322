@@ -31,7 +31,12 @@ Welcome to SWEBAY
                 <div class="flex items-center gap-6">
                     <a href="{% url 'home' %}" class="text-custom hover:text-custom/80 font-medium">Home</a>
                     <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
-                    <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a>
+                    <a href="{% url 'vip' %}">
+                        <button class="!rounded-button bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 text-sm font-medium shadow-md">
+                            <i class="fas fa-crown mr-2 text-yellow-300"></i>VIP Access
+                        </button>
+                    </a>
+                    {% comment %} <a href="/vip" class="text-gray-600 hover:text-custom font-medium">VIP Auctions</a> {% endcomment %}
                     <a href="{% url 'login' %}">
                         <button class="!rounded-button bg-custom text-white px-4 py-2 font-medium hover:bg-custom/90">
                             Login
