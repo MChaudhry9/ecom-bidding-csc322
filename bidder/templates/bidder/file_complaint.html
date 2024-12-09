@@ -20,13 +20,24 @@
             <p class="mt-2 text-sm text-gray-600">Please enter the details below to file a complaint</p>
         </div>
 
-        <p class="text-base text-gray-700 font-medium text-center bg-gray-100 p-3 rounded-lg shadow-md">
-            You are filing a complaint against: <strong class="text-blue-600">{{ user_to_complain_about.username }}</strong>
-        </p>
         {% comment %} <p>You are filing a complaint against: <strong>{{ user_to_complain_about.username }}</strong></p> {% endcomment %}
 
         <form method="POST">
             {% csrf_token %}
+            <div class="text-center mt-4">
+                <label for="accused_user" class="block text-sm font-medium text-gray-700">
+                    You are filing a complaint against:
+                </label>
+                <input
+                    type="text"
+                    id="accused_user"
+                    name="accused_user"
+                    placeholder="Enter username of the accused user"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-custom focus:border-custom sm:text-sm"
+                    required
+                />
+            </div>
+            
             <form class="mt-8 space-y-6">
             <div class="space-y-4">
                 {% comment %} description {% endcomment %}

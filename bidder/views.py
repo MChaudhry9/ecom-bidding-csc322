@@ -127,15 +127,32 @@ def rate_user(request, user_id):
     return render(request, "bidder/rate_user.html", {"rated_user": rated_user})
 
 @login_required
-def file_complaint(request, user_id):
-    """Allow users to file complaints against another user."""
-    accused_user = get_object_or_404(User, id=user_id)
+def file_complaint(request):
+    """
+    Allow users to file complaints against another user by specifying their username.
+    """
     if request.method == "POST":
-        description = request.POST.get("description")
-        Complaint.objects.create(complainant=request.user, against_user=accused_user, description=description)
+        accused_username = request.POST.get("accused_user")  # Get username from form input
+        description = request.POST.get("description")  # Get description from form input
+
+        # Validate and fetch the accused user
+        try:
+            accused_user = User.objects.get(username=accused_username)
+        except User.DoesNotExist:
+            messages.error(request, "The specified user does not exist.")
+            return redirect("file_complaint")
+
+        # Create the complaint
+        Complaint.objects.create(
+            complainant=request.user,
+            against_user=accused_user,
+            description=description,
+        )
         messages.success(request, "Complaint filed successfully.")
         return redirect("browse_items")
-    return render(request, "bidder/file_complaint.html", {"accused_user": accused_user})
+
+    # Render the complaint form
+    return render(request, "bidder/file_complaint.html")
 
 
 # Super User Views
