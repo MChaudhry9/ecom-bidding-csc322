@@ -1,22 +1,20 @@
 {% extends "bidder/base.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% comment %} this format for dashboard works,just a backup {% endcomment %}
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard - {{ user.username }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
 </head>
 
 <body class="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-center w-full mt-8">
-        
-        <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-        {% comment %} <div class="max-w-3xl w-full bg-white p-10 rounded-xl shadow-lg"> {% endcomment %}
-        <!-- Header -->
+    <center>
+    <div class="max-w-md w-f ull space-y-8 bg-white p-10 rounded-xl shadow-lg"> 
         <div class="text-center">
             <img class="mx-auto h-12 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay"/>
             <h2 class="mt-6 text-3xl font-bold text-gray-900">
@@ -25,49 +23,48 @@
             <p class="mt-2 text-sm text-gray-600">View your account details below:</p>
         </div>
         
-        <!-- Account Details -->
-        <div class="mt-8 space-y-6">
-            <p class="block text-lg font-medium text-gray-700"><strong>Account Balance:</strong> ${{ account_balance }}</p>
-            <p class="block text-lg font-medium text-gray-700"><strong>Status:</strong> {{ user_status }}</p>
+        <div >
+            <div class="mt-8 space-y-6">
+            <div class="space-y-4">
+                <!-- Display account balance -->
+                <p class="block text-lgl font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom"><strong>Account Balance:</strong> ${{ account_balance }}</p>
+                 
+                <!-- Display VIP status -->
+                <p class="block text-lgl font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom"><strong>Status:</strong> {{ user_status }}</p>
 
-            <!-- Listed Items -->
-            <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Listed Items</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                <!-- Section for user's listed items -->
+                <h2><strong>Your Listed Items</strong></h2>
+                <ul>
                     {% for item in items %}
                         <li>
                             <strong>{{ item.name }}</strong> - ${{ item.starting_price }} 
                             {% if item.is_available %}
-                                <em class="text-green-500">(Available)</em>
+                                <em>(Available)</em>
                             {% else %}
-                                <em class="text-red-500">(Sold/Rented)</em>
+                                <em>(Sold/Rented)</em>
                             {% endif %}
                         </li>
                     {% empty %}
-                        <li class="text-gray-500">No items listed.</li>
+                        <li>No items listed.</li>
                     {% endfor %}
                 </ul>
-            </div>
 
-            <!-- User Bids -->
-            <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Bids</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                <!-- Section for user's bids -->
+                <h2><strong>Your Bids</strong></h2>
+                <ul>
                     {% for bid in bids %}
                         <li>
                             <strong>Item:</strong> {{ bid.item.name }} - 
                             <strong>Bid Amount:</strong> ${{ bid.amount }}
                         </li>
                     {% empty %}
-                        <li class="text-gray-500">No bids placed.</li>
+                        <li>No bids placed.</li>
                     {% endfor %}
                 </ul>
-            </div>
 
-            <!-- Transactions -->
-            <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Transactions</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                <!-- Section for transactions -->
+                <h2><strong>Your Transactions</strong></h2>
+                <ul>
                     {% for transaction in transactions %}
                         <li>
                             <strong>Item:</strong> {{ transaction.item.name }} - 
@@ -75,36 +72,32 @@
                             <strong>Date:</strong> {{ transaction.completed }}
                         </li>
                     {% empty %}
-                        <li class="text-gray-500">No transactions available.</li>
+                        <li>No transactions available.</li>
                     {% endfor %}
                 </ul>
-            </div>
 
-            <!-- Complaints -->
-            <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Complaints</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                <!-- Section for complaints -->
+                <h2><strong>Your Complaints</strong></h2>
+                <ul>
                     {% for complaint in complaints %}
                         <li>
                             <strong>Against:</strong> {{ complaint.against_user.username }} - 
                             <strong>Description:</strong> {{ complaint.description }}
                         </li>
                     {% empty %}
-                        <li class="text-gray-500">No complaints filed.</li>
+                        <li>No complaints filed.</li>
                     {% endfor %}
                 </ul>
+                {% comment %} ------------------------------------ {% endcomment %}
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    <a href="{% url 'browse_items' %}" class="font-medium text-custom hover:text-custom-600">Back to Browse Items</a>
+                </p>
             </div>
         </div>
-
-        <!-- Back Link -->
-        <div class="text-center">
-            <p class="text-sm text-gray-600">
-                <a href="{% url 'browse_items' %}" class="font-medium text-blue-600 custom hover:text-custom-600">Back to Browse Items</a>
-            </p>
-        </div>
     </div>
-</div>
-{% comment %} footer starts here {% endcomment %}
+</center>
+
 <footer class="bg-white border-t border-gray-200 mt-12">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -180,10 +173,7 @@
         </div>
     </div>
 </footer>
-</body>
-</html>
-{% endblock content %}
-
+    {% endblock content %}
 {% comment %} ---------------------------------------------------- {% endcomment %}
 {% comment %} {% extends "bidder/base.html" %}
 {% block title %}

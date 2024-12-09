@@ -1,3 +1,133 @@
+{% extends "bidder/base.html" %}
+{% block content %}
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Apply to Become a User</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <center>
+    <div class="max-w-md w-f ull space-y-8 bg-white p-10 rounded-xl shadow-lg mt-8"> 
+        <div class="text-center">
+            <img class="mx-auto h-12 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay"/>
+            <h2 class="mt-6 text-3xl font-bold text-gray-900">Apply to Become a User</h2>
+            <p class="mt-2 text-sm text-gray-600">To apply, please answer the anti-bot question below:</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <form class="mt-8 space-y-6">
+            <div class="space-y-4">
+                {% comment %} anti-bot question {% endcomment %}
+                <div>
+                    <label for="anti_bot_answer" class="block text-sm font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm">What is 9 + 10?</label>
+                    <div class="mt-1 relative">
+                        {% comment %} <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-user text-gray-400"></i>
+                        </div> {% endcomment %}
+                        <input type="text" name="anti_bot_answer" id="anti_bot_answer"
+                        class="!rounded-button appearance-none block w-full pl-3 pr-3 py-2 border border-gray-300 placeholder-gray-400 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm" 
+                        placeholder="Enter your answer" required/>
+                    </div>
+                </div>
+            {% comment %} ----------------------------------------------------- {% endcomment %}
+            {% comment %} submit button {% endcomment %}
+
+            <button type="submit" class="!rounded-button w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
+                Submit Application
+            </button>
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    <a href="{% url 'browse_items' %}" class="font-medium text-blue-600 custom hover:text-custom-600">Back to Browse Items</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</center>
+
+<footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">About</h3>
+                <ul class="mt-4 space-y-4">
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Press</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Support</h3>
+                <ul class="mt-4 space-y-4">
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Help Center</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Safety Center</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Community Guidelines</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Legal</h3>
+                <ul class="mt-4 space-y-4">
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms of Service</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">Cookie Policy</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Connect</h3>
+                <ul class="mt-4 space-y-4">
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-facebook-f mr-2"></i>
+                            Facebook
+                        </a>                        </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-twitter mr-2"></i>
+                            Twitter
+                        </a>                        </li>
+                    <li>
+                        <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-instagram mr-2"></i>
+                            Instagram
+                        </a>                        </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">                <div class="flex space-x-6 md:order-2">
+                <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">                    © 2024 Swebay. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+    {% endblock content %}
+{% comment %} ----------------------------------------------------------
 {% extends 'bidder/base.html' %}
 
 {% block content %}
@@ -12,5 +142,5 @@
 </form>
 
 <a href="{% url 'browse_items' %}">Back to Browse Items</a>
-{% endblock %}
+{% endblock %} {% endcomment %}
 
