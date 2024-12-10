@@ -1,6 +1,64 @@
 {% comment %} {% block title %}Register{% endblock title %} {% endcomment %}
-{% comment %} for the actual working Registering code go to t7.html {% endcomment %}
 {% block content %}
+
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register - Swebay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    </head>
+
+    <body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+    <img class="mx-auto h-12 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay"/>
+    <h2 class="mt-6 text-3xl font-bold text-gray-900">Welcome to Swebay! 👋</h2>
+    <p class="mt-2 text-sm text-gray-600">Start your amazing journey with us</p>
+    </div>
+
+    <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 transform hover:scale-[1.02] transition-transform duration-300">
+    <form class="space-y-6" action="#" method="POST"><div class="text-center mb-6"><div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-custom/10 mb-4"><i class="fas fa-user-astronaut text-2xl text-custom"></i></div></div>
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <div>
+    <button type="submit" class="!rounded-button w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom transform hover:-translate-y-1 transition-all duration-200"><i class="fas fa-rocket mr-2"></i> Launch Your Account</button>
+    </div>
+    </form>
+    </div>
+
+    <div class="text-center mt-4">
+    <p class="text-sm text-gray-600">
+    Already have an account?
+    <a href="{% url 'login' %}" class="font-medium text-custom hover:text-custom/90 underline decoration-2 decoration-custom/30 hover:decoration-custom/60 transition-all duration-200"> Sign in </a>
+    </p>
+    </div>
+    </div>
+    {% endblock content %}
+
+    
+{% comment %} --------------------------------------
+{% extends "bidder/base.html" %}
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+<h1>Register</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+
+<p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+{% endblock content %} {% endcomment %}
+
+{% comment %} {% block content %}
 
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8"/>
@@ -45,7 +103,7 @@
                 <input id="id_email" name="email" type="email" required class="!rounded-button block w-full pl-10 py-3 border border-gray-300 focus:ring-custom focus:border-custom sm:text-sm" placeholder="Enter your email"/>
             </div>
         </p> {% endcomment %}
-    
+    {% comment%}
         <p>
             <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
             <div class="mt-1 relative">
@@ -81,7 +139,7 @@
     </p>
     </div>
     </div>
-    {% endblock content %}
+    {% endblock content %} {% endcomment %}
 
     
 {% comment %} --------------------------------------
