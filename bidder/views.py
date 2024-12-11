@@ -327,7 +327,11 @@ def users_own_listed_items(request):
         bidder =  bid.bidder
         if bidder.profile.account_balance > bid.amount:
             owner.profile.account_balance += bid.amount
-            bidder.profile.account_balance -= bid.amount
+            # if bidder is vip, apply discount of 10% of price item
+            if bidder.is_vip:
+                bidder.profile.account_balance -= (bid.amount - (bid.amount * 0.1))
+            else:
+                bidder.profile.account_balance += bid.amount
             item.is_available = False
             item.save()
             owner.save()

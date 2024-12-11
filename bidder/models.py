@@ -14,18 +14,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    account_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    is_vip = models.BooleanField(default=False)
-    is_suspended = models.BooleanField(default=False)
-    times_suspended = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"{self.user.username}'s Profile"
-
-
 class Item(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     name = models.CharField(max_length=255)
@@ -40,6 +28,49 @@ class Item(models.Model):
         return self.name
 
 
+class Transaction(models.Model):
+    item = models.OneToOneField(Item, on_delete=models.CASCADE)  # Each item can only have one transaction
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="purchases")
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sales")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.buyer.username} bought {self.item.name} from {self.seller.username}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    account_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    is_vip = models.BooleanField(default=False)
+    is_suspended = models.BooleanField(default=False)
+    times_suspended = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+    # overwrite the default save method
+    def save(self, *args, **kwargs):
+        profile_transactions_as_buyer = Transaction.objects.filter(buyer=self.user)
+        profile_transactions_as_seller = Transaction.objects.filter(seller=self.user)
+        all_transactions_count = len(profile_transactions_as_buyer) + len(profile_transactions_as_seller)
+        all_complaints_count = Complaint.objects.filter(against_user=self.user)
+
+        #  if user has 5000+, and more than 5 transactions and no complaints, save them as a vip
+        if self.account_balance > 5000.00 and all_transactions_count > 5 and all_complaints_count <= 0:
+            self.is_vip = True
+        #     if the user doesn't meet these requirements, or he broke the last two, remove them from vip status
+        else:
+            self.is_vip = False
+
+        # if user is a vip user, trying to suspend hime will simply remove their vip status
+        if self.is_vip and self.is_suspended:
+            self.is_suspended = False
+            self.is_vip = False
+
+        super().save(*args, **kwargs)
+
+
 class Comment(models.Model):
     content = models.TextField()
     associated_item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="comments")
@@ -50,19 +81,11 @@ class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     placed_at = models.DateTimeField(auto_now_add=True)
+    was_selected = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.bidder.username} - {self.amount} on {self.item.name}"
 
-class Transaction(models.Model):
-    item = models.OneToOneField(Item, on_delete=models.CASCADE)  # Each item can only have one transaction
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="purchases")
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sales")
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    completed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.buyer.username} bought {self.item.name} from {self.seller.username}"
 
 class Rating(models.Model):
     rater = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_ratings")
