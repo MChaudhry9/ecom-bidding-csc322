@@ -1,0 +1,16 @@
+{% extends "bidder/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Browse Item Requests</h2>
+    <ul class="list-group">
+        {% for req in requests %}
+        <li class="list-group-item">
+            <strong>{{ req.item_name }}</strong>
+            <p>{{ req.description }}</p>
+            <p>Price Range: ${{ req.price_min }} - ${{ req.price_max }}</p>
+            <small>Requested by {{ req.user.username }} on {{ req.created_at|date:"M d, Y" }}</small>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -93,3 +93,14 @@ class Application(models.Model):
 
 
 
+
+class ItemRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requests")
+    item_name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    price_min = models.DecimalField(max_digits=10, decimal_places=2)
+    price_max = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} requests {self.item_name} (${self.price_min} - ${self.price_max})"

@@ -20,33 +20,53 @@
             <p class="mt-2 text-sm text-gray-600">Please enter the details below to file a complaint</p>
         </div>
 
-        <p class="text-base text-gray-700 font-medium text-center bg-gray-100 p-3 rounded-lg shadow-md">
-            You are filing a complaint against: <strong class="text-blue-600">{{ user_to_complain_about.username }}</strong>
-        </p>
         {% comment %} <p>You are filing a complaint against: <strong>{{ user_to_complain_about.username }}</strong></p> {% endcomment %}
 
         <form method="POST">
             {% csrf_token %}
-            <form class="mt-8 space-y-6">
             <div class="space-y-4">
-                {% comment %} description {% endcomment %}
+                <!-- Accused User Input -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm">Description</label>
-                    <div class="mt-1 relative">
-                        {% comment %} <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-user text-gray-400"></i>
-                        </div> {% endcomment %}
-                        <textarea id="description" name="description" rows="5" cols="50"
-                        class="!rounded-button appearance-none block w-full pl-3 pr-3 py-2 border border-gray-300 placeholder-gray-400 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm" 
-                        placeholder="Enter complaint description" required></textarea>
-                    </div>
+                    <label for="accused_user" class="block text-sm font-medium text-gray-700">
+                        You are filing a complaint against:
+                    </label>
+                    <input
+                        type="text"
+                        id="accused_user"
+                        name="accused_user"
+                        placeholder="Enter username of the accused user"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-custom focus:border-custom sm:text-sm"
+                        required
+                    />
                 </div>
-            {% comment %} ----------------------------------------------------- {% endcomment %}
-            {% comment %} submit button {% endcomment %}
-
-            <button type="submit" class="!rounded-button w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
-                Submit Complaint
-            </button>
+        
+                <!-- Description Input -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">
+                        Description
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-custom focus:border-custom sm:text-sm"
+                        placeholder="Enter complaint description"
+                        required
+                    ></textarea>
+                </div>
+            </div>
+        
+            <!-- Submit Button -->
+            <div class="mt-6">
+                <button type="submit" class="rounded-button w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    Submit Complaint
+                </button>
+                
+            </div>
+        </form>
+        
+        
+        
             <div class="text-center">
                 <p class="text-sm text-gray-600">
                     <a href="{% url 'browse_items' %}" class="font-medium text-blue-600 custom hover:text-custom-600">Back to Browse Items</a>

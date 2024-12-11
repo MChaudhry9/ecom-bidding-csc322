@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
-from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment
+from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment, ItemRequest
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from decimal import Decimal
@@ -140,15 +140,33 @@ def rate_user(request, user_id):
     return render(request, "bidder/rate_user.html", {"rated_user": rated_user})
 
 @login_required
-def file_complaint(request, user_id):
-    """Allow users to file complaints against another user."""
-    accused_user = get_object_or_404(User, id=user_id)
+def file_complaint(request):
+    """
+    Allow users to file complaints against another user by specifying their username.
+    """
     if request.method == "POST":
-        description = request.POST.get("description")
-        Complaint.objects.create(complainant=request.user, against_user=accused_user, description=description)
+        accused_username = request.POST.get("accused_user")  # Get username from form input
+        description = request.POST.get("description")  # Get description from form input
+
+        # Validate and fetch the accused user
+        try:
+            accused_user = User.objects.get(username=accused_username)
+        except User.DoesNotExist:
+            messages.error(request, "The specified user does not exist.")
+            return redirect("file_complaint")
+
+        # Create the complaint
+        Complaint.objects.create(
+            complainant=request.user,
+            against_user=accused_user,
+            description=description,
+        )
         messages.success(request, "Complaint filed successfully.")
         return redirect("browse_items")
-    return render(request, "bidder/file_complaint.html", {"accused_user": accused_user})
+
+    # Render the complaint form
+    return render(request, "bidder/file_complaint.html")
+
 
 
 # Super User Views
@@ -225,3 +243,41 @@ def dashboard(request):
     }
 
     return render(request, "bidder/dashboard.html", context)
+
+
+
+
+@login_required
+def list_request(request):
+    if request.method == "POST":
+        item_name = request.POST.get("item_name")
+        description = request.POST.get("description")
+        price_min = request.POST.get("price_min")
+        price_max = request.POST.get("price_max")
+
+        if not item_name or not price_min or not price_max:
+            messages.error(request, "Please fill in all required fields.")
+            return render(request, "bidder/list_request.html")
+
+        if float(price_min) > float(price_max):
+            messages.error(request, "Minimum price cannot be greater than maximum price.")
+            return render(request, "bidder/list_request.html")
+
+        # Save the request
+        ItemRequest.objects.create(
+            user=request.user,
+            item_name=item_name,
+            description=description,
+            price_min=price_min,
+            price_max=price_max
+        )
+        messages.success(request, "Your request has been listed successfully!")
+        return redirect("browse_requests")  # Redirect to a page to browse all requests (optional)
+
+    return render(request, "bidder/list_request.html")
+
+
+@login_required
+def browse_requests(request):
+    requests = ItemRequest.objects.all().order_by("-created_at")
+    return render(request, "bidder/browse_requests.html", {"requests": requests})
