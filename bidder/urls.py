@@ -25,5 +25,7 @@ urlpatterns = [
     path('vip/', views.vip, name='vip'),
     path("list-request/", views.list_request, name="list_request"),
     path('browse-requests/', views.browse_requests, name='browse_requests'),
+    path('users-own-listed-items/', views.users_own_listed_items, name='users_own_listed_items'),
+    path("suspended/", views.suspended, name='suspended'),
 
 ]

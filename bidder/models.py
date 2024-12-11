@@ -19,11 +19,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     account_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_vip = models.BooleanField(default=False)
+    is_suspended = models.BooleanField(default=False)
+    times_suspended = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
-
-
 
 
 class Item(models.Model):
@@ -34,6 +34,7 @@ class Item(models.Model):
     deadline = models.DateTimeField()
     is_available = models.BooleanField(default=True)  # False once sold/rented
     display_image = models.ImageField(upload_to="images/", null=True, blank=True)
+    current_max_bid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name
@@ -66,7 +67,7 @@ class Transaction(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_ratings")
     rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_ratings")
-    score = models.IntegerField()  # 1 (worst) to 5 (best)
+    score = models.IntegerField() # 1 (worst) to 5 (best)
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

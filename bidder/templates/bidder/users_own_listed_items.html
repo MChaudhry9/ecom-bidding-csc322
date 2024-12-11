@@ -1,0 +1,27 @@
+{% extends 'bidder/base.html' %}
+{% block content %}
+<div class="m-4">
+  {% for item in all_items_with_details %}
+  <div class="m-4 border-2 p-4">
+      <p>{{ item.name }}</p>
+      <p>Starting Price {{ item.starting_price }}</p>
+      <p>Bids</p>
+      {% for bid in item.bids %}
+        <div>
+          <p class="inline-block">bid: {{ bid }}</p>
+          <form method="post" class="inline-block">
+            {% csrf_token %}
+            <button class="inline-block p-2 bg-blue-200 rounded-sm">Accept bid</button>
+            <input name="post_type" value="accept_bid" hidden>
+            <input name="bid_id" value="{{ bid.id }}" hidden>
+          </form>
+
+        </div>
+
+      {% endfor %}
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock %}

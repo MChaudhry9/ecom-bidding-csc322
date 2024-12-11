@@ -4,19 +4,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
+from pandas.io.clipboard import is_available
+
 from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment, ItemRequest
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from decimal import Decimal
+from django.urls import reverse_lazy
 
 
 
 def home_view(request):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     return render(request, "bidder/home.html")
 
 # Visitor Views
 def browse_items(request):
     """View to display all available items to visitors."""
+    if request.user.profile.is_suspended:
+        return render(request, "bidder/suspended.html")
     items = Item.objects.filter(is_available=True)
     return render(request, "bidder/browse_items.html", {"items": items})
 
@@ -29,6 +36,8 @@ def vip(request):
 
 def apply_to_become_user(request):
     """View for visitors to apply to become registered users."""
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     if request.method == "POST":
         anti_bot_answer = request.POST.get("anti_bot_answer")
         username = request.POST.get("username")
@@ -46,6 +55,8 @@ def apply_to_become_user(request):
 @login_required
 def list_item(request):
     """View for users to list items for sale or rent."""
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
@@ -68,6 +79,8 @@ def list_item(request):
 
 @login_required
 def place_bid(request, item_id):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     """View for users to place bids on an item."""
     item = get_object_or_404(Item, id=item_id)
     comments = Comment.objects.filter(associated_item=item)
@@ -75,16 +88,24 @@ def place_bid(request, item_id):
     if request.method == "POST":
 
         if request.POST.get("post_type", "n/a") == "comment":
+
             new_comment_content = request.POST.get("comment")
             new_comment = Comment(content=new_comment_content, associated_item=item)
             new_comment.save()
             return render(request, "bidder/place_bid.html", {"item": item, "comments": comments})
         else:
+
             amount = float(request.POST.get("amount"))
             current_highest_bid = max([bid.amount for bid in item.bids.all()], default=item.starting_price)
+
             if amount > current_highest_bid:
+
                 if request.user.profile.account_balance >= amount:
-                    Bid.objects.create(item=item, bidder=request.user, amount=amount)
+                    new_bid = Bid.objects.create(item=item, bidder=request.user, amount=amount)
+                    new_bid.save()
+                    item.current_max_bid = amount
+                    item.save()
+
                     messages.success(request, "Bid placed successfully!")
                 else:
                     messages.error(request, "Insufficient balance.")
@@ -130,6 +151,8 @@ def withdraw_money(request):
 @login_required
 def rate_user(request, user_id):
     """Allow users to rate another user after a transaction."""
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     rated_user = get_object_or_404(User, id=user_id)
     if request.method == "POST":
         score = int(request.POST.get("score"))
@@ -144,6 +167,8 @@ def file_complaint(request):
     """
     Allow users to file complaints against another user by specifying their username.
     """
+    if request.user.profile.is_suspended:
+        return render(request, "bidder/suspended.html")
     if request.method == "POST":
         accused_username = request.POST.get("accused_user")  # Get username from form input
         description = request.POST.get("description")  # Get description from form input
@@ -221,6 +246,9 @@ def logout_confirmation(request):
 
 @login_required
 def dashboard(request):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
+
     user = request.user
     account_balance = user.profile.account_balance
     is_vip = user.profile.is_vip
@@ -249,6 +277,8 @@ def dashboard(request):
 
 @login_required
 def list_request(request):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     if request.method == "POST":
         item_name = request.POST.get("item_name")
         description = request.POST.get("description")
@@ -279,5 +309,50 @@ def list_request(request):
 
 @login_required
 def browse_requests(request):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
     requests = ItemRequest.objects.all().order_by("-created_at")
     return render(request, "bidder/browse_requests.html", {"requests": requests})
+
+
+@login_required
+def users_own_listed_items(request):
+    if request.user.profile.is_suspended:
+        return redirect('suspended')
+    if request.method == "POST":
+        bid_id = request.POST.get("bid_id")
+        bid = get_object_or_404(Bid, id=bid_id)
+        item = bid.item
+        owner = bid.item.owner
+        bidder =  bid.bidder
+        if bidder.profile.account_balance > bid.amount:
+            owner.profile.account_balance += bid.amount
+            bidder.profile.account_balance -= bid.amount
+            item.is_available = False
+            item.save()
+            owner.save()
+            bidder.save()
+
+    logged_in_user = request.user
+    all_items = Item.objects.filter(owner=logged_in_user, is_available=True)
+    all_items_with_details = []
+    for item in all_items:
+        all_bids = Bid.objects.filter(item=item)
+        print(all_bids)
+        all_items_with_details.append(
+            {"name": item.name,
+             "starting_price": item.starting_price,
+             "display_image_url": item.display_image.url,
+             "bids": all_bids})
+    return render(request, "bidder/users_own_listed_items.html", context={"all_items_with_details": all_items_with_details})
+
+
+def suspended(request):
+    suspended_user = request.user
+    if request.method == "POST":
+        if suspended_user.profile.account_balance > 50:
+            suspended_user.profile.account_balance -= 50
+            suspended_user.profile.is_suspended = False
+            suspended_user.profile.save()
+            return redirect("browse_items")
+    return render(request, "bidder/suspended.html")

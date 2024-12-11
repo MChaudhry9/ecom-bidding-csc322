@@ -32,7 +32,10 @@
 
             <!-- Listed Items -->
             <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Listed Items</h2>
+                <a href="{% url 'users_own_listed_items' %}">
+                    <h2 class="text-lg font-bold text-blue-500 underline mb-2">Your Listed Items</h2>
+                </a>
+
                 <ul class="list-disc pl-6 space-y-1 text-gray-700">
                     {% for item in items %}
                         <li>
