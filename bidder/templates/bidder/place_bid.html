@@ -54,7 +54,7 @@
                         </div>
                         
                         <div class="grid grid-cols-2 gap-8">                            <div class="aspect-w-4 aspect-h-3">
-                                <img src="https://creatie.ai/ai/api/search-image?query=A professional product photo of a vintage brown leather camera bag with brass hardware and multiple compartments, displayed on a clean white background with soft shadows&width=600&height=450&orientation=landscape&flag=f0773b0d-691e-437c-939d-404a3f41ca4d" alt="Product Image" class="object-cover rounded-lg">                            </div>
+                                <img src="{{ item.display_image.url }}" alt="Product Image" class="object-cover rounded-lg">                            </div>
                             <div>
                                 <div class="bg-gray-50 rounded-lg p-6 mb-6">                                    <div class="flex items-baseline">
                                         <span class="text-2xl font-bold text-custom">${{ item.starting_price }}</span>
@@ -112,18 +112,23 @@
                         </div>
                     </div>
                     
-                    <div class="border-t border-gray-200 px-6 py-4">                        <h2 class="text-lg font-medium text-gray-900 mb-4">Bid History</h2>
-                        <div class="overflow-hidden">                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">                                    <tr>
+                    <div class="border-t border-gray-200 px-6 py-4">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Bid History</h2>
+                        <div class="overflow-hidden">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bidder</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-                                    </tr>
+                                </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">j***n</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$425.00</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">j***n</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$425.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
                                     </tr>
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">p***r</td>
@@ -136,8 +141,43 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5 hours ago</td>
                                     </tr>
                                 </tbody>
-                            </table>                        </div>
+                            </table>
+                        </div>
                     </div>
+
+
+
+                <!--Part added by backend engineer-->
+
+                    <!--Comment Box-->
+                    <div class="border-t border-gray-200 px-6 py-4">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Comments</h2>
+                        <div class="overflow-hidden">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                {% for comment in comments %}
+                                    <p class="mb-2 border-2 p-2">{{ comment.content }}</p>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <!--End of comment Box-->
+                    <form method="POST" class="m-4">
+                        <fieldset class="border-2 p-5">
+                            <legend>New Comment</legend>
+                            <label>Content</label>
+                            <input name="comment">
+                            <input name="post_type" value="comment" hidden>
+                            {% csrf_token %}
+                            <button class="bg-blue-200 p-4">Submit</button>
+                        </fieldset>
+
+                    </form>
+
+                <!--end of part added by backend engineers->
+
+
                 </div>
             </div>
             

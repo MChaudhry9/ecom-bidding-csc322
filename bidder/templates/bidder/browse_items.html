@@ -89,7 +89,7 @@
                     </button>
                 </div>
                 <div class="aspect-w-1 aspect-h-1">
-                    <img src="{{ item.image_url }}" alt="{{ item.name }}" class="object-cover">
+                    <img src="{{ item.display_image.url }}" alt="{{ item.name }}" class="object-cover">
                 </div>
                 <div class="p-4">
                     <span class="inline-flex items-center px-2.5 py-0.5 !rounded-button text-xs font-medium bg-green-100 text-green-800">
@@ -215,6 +215,8 @@
         </div>
     </footer>
 </body>
+
+
 </html>
 {% endblock content %}
 {% comment %} -------------------------------------------------------------------------------------------- {% endcomment %}

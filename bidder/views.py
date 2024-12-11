@@ -4,11 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
-from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application
+from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from decimal import Decimal
-from django.db.models import Q
+
 
 
 def home_view(request):
@@ -27,18 +27,19 @@ def vip(request):
     return render(request, 'bidder/vip.html')
 
 
-@login_required
 def apply_to_become_user(request):
     """View for visitors to apply to become registered users."""
     if request.method == "POST":
-        answer = request.POST.get("anti_bot_answer")
-        if answer:  # Validate the answer to the anti-bot question
-            Application.objects.create(applicant=request.user, anti_bot_answer=answer)
-            messages.success(request, "Application submitted successfully. Please wait for approval.")
-            return redirect("browse_items")
-        else:
-            messages.error(request, "Please answer the anti-bot question.")
-    return render(request, "bidder/apply_to_become_user.html")
+        anti_bot_answer = request.POST.get("anti_bot_answer")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        new_application = Application(anti_bot_answer=anti_bot_answer, username=username, password=password)
+        new_application.save()
+        messages.success(request, "Application submitted successfully. Please wait for approval.")
+        return redirect("browse_items")
+
+    else:
+        return render(request, "bidder/apply_to_become_user.html")
 
 
 # User Views
@@ -50,13 +51,16 @@ def list_item(request):
         description = request.POST.get("description")
         starting_price = request.POST.get("starting_price")
         deadline = request.POST.get("deadline")
+        display_image = request.FILES.get("display_image")
         item = Item.objects.create(
             owner=request.user,
             name=name,
             description=description,
             starting_price=starting_price,
             deadline=deadline,
+            display_image=display_image,
         )
+        item.save()
         messages.success(request, "Item listed successfully!")
         return redirect("browse_items")
     return render(request, "bidder/list_item.html")
@@ -66,19 +70,28 @@ def list_item(request):
 def place_bid(request, item_id):
     """View for users to place bids on an item."""
     item = get_object_or_404(Item, id=item_id)
+    comments = Comment.objects.filter(associated_item=item)
+
     if request.method == "POST":
-        amount = float(request.POST.get("amount"))
-        current_highest_bid = max([bid.amount for bid in item.bids.all()], default=item.starting_price)
-        if amount > current_highest_bid:
-            if request.user.profile.account_balance >= amount:
-                Bid.objects.create(item=item, bidder=request.user, amount=amount)
-                messages.success(request, "Bid placed successfully!")
-            else:
-                messages.error(request, "Insufficient balance.")
+
+        if request.POST.get("post_type", "n/a") == "comment":
+            new_comment_content = request.POST.get("comment")
+            new_comment = Comment(content=new_comment_content, associated_item=item)
+            new_comment.save()
+            return render(request, "bidder/place_bid.html", {"item": item, "comments": comments})
         else:
-            messages.error(request, "Bid amount must be higher than the current bid.")
+            amount = float(request.POST.get("amount"))
+            current_highest_bid = max([bid.amount for bid in item.bids.all()], default=item.starting_price)
+            if amount > current_highest_bid:
+                if request.user.profile.account_balance >= amount:
+                    Bid.objects.create(item=item, bidder=request.user, amount=amount)
+                    messages.success(request, "Bid placed successfully!")
+                else:
+                    messages.error(request, "Insufficient balance.")
+            else:
+                messages.error(request, "Bid amount must be higher than the current bid.")
         return redirect("browse_items")
-    return render(request, "bidder/place_bid.html", {"item": item})
+    return render(request, "bidder/place_bid.html", {"item": item, "comments": comments})
 
 @login_required
 def deposit_money(request):
@@ -145,7 +158,7 @@ def approve_application(request, application_id):
     application = get_object_or_404(Application, id=application_id)
     application.is_approved = True
     application.save()
-    messages.success(request, f"Application for {application.applicant.username} approved!")
+    # messages.success(request, f"Application for {application.applicant.username} approved!")
     return redirect("application_list")
 
 @staff_member_required

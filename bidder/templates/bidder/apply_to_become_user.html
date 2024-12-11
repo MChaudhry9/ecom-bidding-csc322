@@ -12,6 +12,11 @@
 </head>
 
 <body class="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<script defer>
+    function alterVisitor() {
+        alert("Your application has been submit. Please wait for approval!")
+    }
+</script>
     <center>
     <div class="max-w-md w-f ull space-y-8 bg-white p-10 rounded-xl shadow-lg mt-8"> 
         <div class="text-center">
@@ -26,11 +31,23 @@
             <div class="space-y-4">
                 {% comment %} anti-bot question {% endcomment %}
                 <div>
-                    <label for="anti_bot_answer" class="block text-sm font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm">What is 9 + 10?</label>
+
                     <div class="mt-1 relative">
                         {% comment %} <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-user text-gray-400"></i>
                         </div> {% endcomment %}
+
+                        <label>Username</label>
+                        <input type="text" name="username" id="username"
+                        class="!rounded-button appearance-none block w-full pl-3 pr-3 py-2 border border-gray-300 placeholder-gray-400 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm"
+                        placeholder="Enter your Password" required/>
+
+                        <label>Password</label>
+                        <input type="password" name="password" id="password"
+                        class="!rounded-button appearance-none block w-full pl-3 pr-3 py-2 border border-gray-300 placeholder-gray-400 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm"
+                        placeholder="Enter your Password" required/>
+
+                        <label for="anti_bot_answer" class="block text-sm font-medium text-gray-700 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm">Anti Bot Question: What is 9 + 10?</label>
                         <input type="text" name="anti_bot_answer" id="anti_bot_answer"
                         class="!rounded-button appearance-none block w-full pl-3 pr-3 py-2 border border-gray-300 placeholder-gray-400 text-left focus:outline-none focus:ring-custom focus:border-custom sm:text-sm" 
                         placeholder="Enter your answer" required/>
@@ -39,7 +56,9 @@
             {% comment %} ----------------------------------------------------- {% endcomment %}
             {% comment %} submit button {% endcomment %}
 
-            <button type="submit" class="!rounded-button w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
+            <button type="submit" class="!rounded-button w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom"
+            onclick="alterVisitor()"
+            >
                 Submit Application
             </button>
             <div class="text-center">

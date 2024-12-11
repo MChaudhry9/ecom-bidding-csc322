@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django import forms
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -21,6 +23,9 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
+
+
+
 class Item(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     name = models.CharField(max_length=255)
@@ -28,9 +33,16 @@ class Item(models.Model):
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     deadline = models.DateTimeField()
     is_available = models.BooleanField(default=True)  # False once sold/rented
+    display_image = models.ImageField(upload_to="images/", null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    associated_item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="comments")
+
 
 class Bid(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="bids")
@@ -73,10 +85,11 @@ class Complaint(models.Model):
 
 
 class Application(models.Model):
-    applicant = models.OneToOneField(User, on_delete=models.CASCADE, related_name="application")
     anti_bot_answer = models.CharField(max_length=255)  # To store the answer to the anti-bot question
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     submitted_at = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"Application by {self.applicant.username} - Approved: {self.is_approved}"
+
+
