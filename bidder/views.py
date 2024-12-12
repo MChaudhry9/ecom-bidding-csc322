@@ -250,20 +250,30 @@ def dashboard(request):
         return redirect('suspended')
 
     user = request.user
-    account_balance = user.profile.account_balance
-    is_vip = user.profile.is_vip
-    user_status = "VIP" if is_vip else "Regular User"  # Handle logic here
+    profile = user.profile
 
-    # Fetch additional data for the dashboard
+    # Fetch account-related details
+    account_balance = profile.account_balance
+    is_vip = profile.is_vip
+    user_status = "VIP" if is_vip else "Regular User"
+
     items = Item.objects.filter(owner=user)
     bids = Bid.objects.filter(bidder=user)
-    transactions = Transaction.objects.filter(buyer=user) | Transaction.objects.filter(seller=user)
+    
+    # Transactions: Ensure transactions are derived correctly
+    transactions = Item.objects.filter(owner=user, is_available=False)
+    
     complaints = Complaint.objects.filter(complainant=user)
+
+    # Update VIP status based on transactions and complaints
+    profile.transactions_count = transactions.count()
+    profile.complaints_count = complaints.count()
+    profile.save()
 
     context = {
         "user": user,
         "account_balance": account_balance,
-        "user_status": user_status,  # Pass status here
+        "user_status": user_status,
         "items": items,
         "bids": bids,
         "transactions": transactions,
@@ -271,6 +281,7 @@ def dashboard(request):
     }
 
     return render(request, "bidder/dashboard.html", context)
+
 
 
 
@@ -317,38 +328,55 @@ def browse_requests(request):
 
 @login_required
 def users_own_listed_items(request):
+    # Redirect if user is suspended
     if request.user.profile.is_suspended:
         return redirect('suspended')
+
     if request.method == "POST":
         bid_id = request.POST.get("bid_id")
         bid = get_object_or_404(Bid, id=bid_id)
         item = bid.item
         owner = bid.item.owner
-        bidder =  bid.bidder
+        bidder = bid.bidder
+
+        # Handle the transaction logic
         if bidder.profile.account_balance > bid.amount:
-            owner.profile.account_balance += bid.amount
-            # if bidder is vip, apply discount of 10% of price item
-            if bidder.is_vip:
+            # Deduct amount based on VIP status
+            if bidder.profile.is_vip:
                 bidder.profile.account_balance -= (bid.amount - (bid.amount * 0.1))
             else:
-                bidder.profile.account_balance += bid.amount
-            item.is_available = False
-            item.save()
-            owner.save()
-            bidder.save()
+                bidder.profile.account_balance -= bid.amount
 
+            # Credit the owner's account
+            owner.profile.account_balance += bid.amount
+
+            # Mark the item as sold/rented
+            item.is_available = False
+
+            # Save the updates
+            item.save()
+            owner.profile.save()
+            bidder.profile.save()
+
+    # Prepare the data for rendering
     logged_in_user = request.user
     all_items = Item.objects.filter(owner=logged_in_user, is_available=True)
     all_items_with_details = []
+
     for item in all_items:
         all_bids = Bid.objects.filter(item=item)
-        print(all_bids)
-        all_items_with_details.append(
-            {"name": item.name,
-             "starting_price": item.starting_price,
-             "display_image_url": item.display_image.url,
-             "bids": all_bids})
-    return render(request, "bidder/users_own_listed_items.html", context={"all_items_with_details": all_items_with_details})
+        all_items_with_details.append({
+            "name": item.name,
+            "starting_price": item.starting_price,
+            "display_image_url": item.display_image.url,
+            "bids": all_bids,
+        })
+
+    # Render the template
+    return render(request, "bidder/users_own_listed_items.html", context={
+        "all_items_with_details": all_items_with_details
+    })
+
 
 
 def suspended(request):

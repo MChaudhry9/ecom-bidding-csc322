@@ -71,15 +71,17 @@
             <div>
                 <h2 class="text-lg font-bold text-gray-900 mb-2">Your Transactions</h2>
                 <ul class="list-disc pl-6 space-y-1 text-gray-700">
-                    {% for transaction in transactions %}
-                        <li>
-                            <strong>Item:</strong> {{ transaction.item.name }} - 
-                            <strong>Amount:</strong> ${{ transaction.amount }} - 
-                            <strong>Date:</strong> {{ transaction.completed }}
-                        </li>
-                    {% empty %}
+                    {% if transactions %}
+                        {% for transaction in transactions %}
+                            <li>
+                                <strong>Item:</strong> {{ transaction.name }} -
+                                <strong>Amount:</strong> ${{ transaction.starting_price }} -
+                                <strong>Date:</strong> {{ transaction.deadline|date:"M d, Y" }}
+                            </li>
+                        {% endfor %}
+                    {% else %}
                         <li class="text-gray-500">No transactions available.</li>
-                    {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
 
