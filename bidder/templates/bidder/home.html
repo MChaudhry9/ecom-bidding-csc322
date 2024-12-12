@@ -33,7 +33,7 @@ Welcome to SWEBAY
                     <a href="{% url 'browse_items' %}" class="text-gray-600 hover:text-custom font-medium">Browse Items</a>
                     {% if user.is_authenticated %}
                         {% if user.profile.is_vip %}
-                    <a href="{% url 'vip' %}">
+                    <a href="{% url 'vip_items' %}">
                         <button class="!rounded-button bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 text-sm font-medium shadow-md">
                             <i class="fas fa-crown mr-2 text-yellow-300"></i>VIP Access
                         </button>

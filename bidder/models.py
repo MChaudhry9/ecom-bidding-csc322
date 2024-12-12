@@ -203,3 +203,21 @@ class ItemRequest(models.Model):
         return f"{self.user.username} requests {self.item_name} (${self.price_min} - ${self.price_max})"
 
 
+class VipItem(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    guess_range_min = models.IntegerField()
+    guess_range_max = models.IntegerField()
+    display_image = models.ImageField(upload_to="images/", null=True, blank=True)
+
+    def __str__(self):
+        return f"VipItem priced at {self.price}"
+
+class Guess(models.Model):
+    guesser = models.ForeignKey(User, on_delete=models.CASCADE, related_name="guesses")
+    vip_item = models.ForeignKey(VipItem, on_delete=models.CASCADE, related_name="guesses")
+    guessed_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    closeness = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Guess by {self.guesser} for name '{self.vip_item.name}' with guessed amount {self.guessed_amount}"

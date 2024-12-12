@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, Bid, Transaction, Rating, Profile, Complaint, Application, Comment
+from .models import Item, Bid, Transaction, Rating, Profile, Complaint, Application, Comment, VipItem, Guess
 from django.contrib.auth.models import Group
 from django.contrib.auth import  get_user_model
 
@@ -28,6 +28,33 @@ class ApplicationAdmin(admin.ModelAdmin):
     approve_user.short_description = "Create approved users"
 
 
+class VipItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'guess_range_min', 'guess_range_max')
+    actions = ['process_vip_item']
+
+    def process_vip_item(self, request, queryset):
+        for vip_item in queryset:
+            guesses = vip_item.guesses.all()
+
+            if not guesses.exists():
+                self.message_user(request, f"No guesses found for {vip_item}.", level='warning')
+                continue
+
+            # Find the closest guess
+            closest_guess = min(guesses, key=lambda g: abs(vip_item.price - g.guessed_amount))
+
+            # Update the account balance of the closest guesser's profile
+            profile = closest_guess.guesser.profile
+            profile.account_balance += vip_item.price
+            profile.save()
+
+            guesses.delete()
+
+            # Delete the VipItem itself
+            vip_item.delete()
+
+    process_vip_item.short_description = "Process selected VIP items and delete them"
+
 admin.site.register(Comment)
 admin.site.unregister(Group)
 admin.site.register(Profile)
@@ -37,3 +64,5 @@ admin.site.register(Transaction)
 admin.site.register(Rating)
 admin.site.register(Complaint)
 admin.site.register(Application, ApplicationAdmin)
+admin.site.register(VipItem, VipItemAdmin)
+admin.site.register(Guess)

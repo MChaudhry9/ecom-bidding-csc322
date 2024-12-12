@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from pandas.io.clipboard import is_available
 
-from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment, ItemRequest
+from .models import Item, Bid, Transaction, Profile, Complaint, Rating, Application, Comment, ItemRequest, VipItem, Guess
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from decimal import Decimal
@@ -511,3 +511,24 @@ def apply_to_quit(request):
         return redirect("home")
 
     return render(request, "bidder/apply_to_quit.html")
+
+
+
+def vip_items_view(request):
+    if request.method == "POST":
+        # Retrieve guess data from the request
+        guessed_amount = int(request.POST.get("guess"))
+        vip_item_id = request.POST.get("id")
+
+        vip_item = get_object_or_404(VipItem, id=vip_item_id)
+        guess = Guess.objects.create(
+            guesser=request.user,
+            vip_item=vip_item,
+            guessed_amount=guessed_amount,
+            closeness=abs(guessed_amount - vip_item.price)
+        )
+        guess.save()
+
+
+    vip_items = VipItem.objects.all()  # Fetch all items from the database
+    return render(request, 'bidder/vip_items.html', {'vip_items': vip_items})

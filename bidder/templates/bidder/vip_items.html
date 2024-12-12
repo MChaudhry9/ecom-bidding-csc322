@@ -1,0 +1,24 @@
+{% extends 'bidder/base.html' %}
+{% block content %}
+<ul>
+    {% for item in vip_items %}
+        <li>
+            <h2>{{ item.name }}</h2>
+            <p>Guess Range: {{ item.guess_range_min }} - {{ item.guess_range_max }}</p>
+            {% if item.display_image %}
+                <img src="{{ item.display_image.url }}" alt="{{ item.name }}" style="max-width:200px; max-height:200px;">
+            {% endif %}
+
+            <!-- Form for submitting a guess -->
+
+            <form method="post">
+                {% csrf_token %}
+                <label for="guess_{{ item.id }}">Your Guess:</label>
+                <input type="number" name="guess" id="guess_{{ item.id }}" step="0.01" required>
+                <input type="number" name="id" value="{{ item.id }}" step="0.01" hidden>
+                <button type="submit">Guess</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

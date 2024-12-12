@@ -28,6 +28,7 @@ urlpatterns = [
     path("suspended/", views.suspended, name='suspended'),
     path('rate-transaction/<int:transaction_id>/', views.rate_transaction, name='rate_transaction'),
     path("apply-to-quit/", views.apply_to_quit, name="apply_to_quit"),
+    path('vip-items/', views.vip_items_view, name='vip_items'),
 
 
 ]
