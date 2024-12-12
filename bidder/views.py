@@ -529,6 +529,11 @@ def vip_items_view(request):
         )
         guess.save()
 
-
+    user_guesses = Guess.objects.filter(guesser=request.user)
     vip_items = VipItem.objects.all()  # Fetch all items from the database
-    return render(request, 'bidder/vip_items.html', {'vip_items': vip_items})
+    context = {
+        'vip_items': vip_items,
+        'user_guesses': user_guesses,
+    }
+    return render(request, 'bidder/vip_items.html', context)
+    # return render(request, 'bidder/vip_items.html', {'vip_items': vip_items})
