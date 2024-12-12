@@ -101,19 +101,24 @@
                             <p class="text-sm text-gray-500">Current bid</p>
                             <p class="text-lg font-bold text-gray-900">${{ item.current_max_bid }}</p>
                         </div>
-                        {% if user.is_authenticated %}
                         <a href="{% url 'place_bid' item.id %}">
                         <button class="!rounded-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90">
                             Place Bid
                         </button>
                         </a>
-                        {% else %}
-                        <a href="{% url 'login' %}">
-                        <button class="!rounded-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90">
-                            Log In To Place Bid
-                        </button>
-                        </a>
-                        {% endif %}
+<!--                        {% if user.is_authenticated %}-->
+<!--                        <a href="{% url 'place_bid' item.id %}">-->
+<!--                        <button class="!rounded-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90">-->
+<!--                            Place Bid-->
+<!--                        </button>-->
+<!--                        </a>-->
+<!--                        {% else %}-->
+<!--                        <a href="{% url 'login' %}">-->
+<!--                        <button class="!rounded-button inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90">-->
+<!--                            Log In To Place Bid-->
+<!--                        </button>-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
                     </div>
                 </div>
             </div>
@@ -232,7 +237,7 @@
         <h3>{{ item.name }}</h3>
         <p>{{ item.description }}</p>
         <p>Starting Price: ${{ item.starting_price }}</p>
-        <p>Available Until: {{ item.deadline }}</p>
+
         {% if user.is_authenticated %}
             <a href="{% url 'place_bid' item.id %}">Place a Bid</a>
         {% else %}

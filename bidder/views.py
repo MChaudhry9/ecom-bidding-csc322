@@ -99,16 +99,19 @@ def list_item(request):
     return render(request, "bidder/list_item.html")
 
 
-@login_required
 def place_bid(request, item_id):
-    if request.user.profile.is_suspended:
-        return redirect('suspended')
-    """View for users to place bids on an item."""
     item = get_object_or_404(Item, id=item_id)
     comments = Comment.objects.filter(associated_item=item)
 
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        if request.user.profile.is_suspended:
+            return redirect('suspended')
+        """View for users to place bids on an item."""
 
+        # if request.method == "POST":
+        #     if not request.user.is_authenticated:
+        #         redirect('login')
+    if request.method == "POST":
         if request.POST.get("post_type", "n/a") == "comment":
 
             new_comment_content = request.POST.get("comment")
@@ -116,25 +119,27 @@ def place_bid(request, item_id):
             new_comment.save()
             return render(request, "bidder/place_bid.html", {"item": item, "comments": comments})
         else:
+            if request.user.is_authenticated:
 
-            amount = float(request.POST.get("amount"))
-            current_highest_bid = max([bid.amount for bid in item.bids.all()], default=item.starting_price)
+                amount = float(request.POST.get("amount"))
+                current_highest_bid = max([bid.amount for bid in item.bids.all()], default=item.starting_price)
 
-            if amount > current_highest_bid:
+                if amount > current_highest_bid:
 
-                if request.user.profile.account_balance >= amount:
-                    new_bid = Bid.objects.create(item=item, bidder=request.user, amount=amount)
-                    new_bid.save()
-                    item.current_max_bid = amount
-                    item.save()
+                    if request.user.profile.account_balance >= amount:
+                        new_bid = Bid.objects.create(item=item, bidder=request.user, amount=amount)
+                        new_bid.save()
+                        item.current_max_bid = amount
+                        item.save()
 
-                    messages.success(request, "Bid placed successfully!")
+                        messages.success(request, "Bid placed successfully!")
+                    else:
+                        messages.error(request, "Insufficient balance.")
                 else:
-                    messages.error(request, "Insufficient balance.")
-            else:
-                messages.error(request, "Bid amount must be higher than the current bid.")
-        return redirect("browse_items")
+                    messages.error(request, "Bid amount must be higher than the current bid.")
+        # return redirect("browse_items")
     return render(request, "bidder/place_bid.html", {"item": item, "comments": comments})
+
 
 @login_required
 def deposit_money(request):
@@ -311,7 +316,9 @@ def dashboard(request):
             ratings_total = ratings_total + transaction.seller_rating
 
 
-    average_rating = ratings_total/ratings_count
+    average_rating = 0
+    if ratings_count > 0:
+        average_rating = ratings_total/ratings_count
 
 
 

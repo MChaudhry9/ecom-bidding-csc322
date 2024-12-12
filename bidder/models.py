@@ -60,7 +60,7 @@ class Profile(models.Model):
         profile_transactions_as_buyer = Transaction.objects.filter(buyer=self.user)
         profile_transactions_as_seller = Transaction.objects.filter(seller=self.user)
         all_transactions_count = len(profile_transactions_as_buyer) + len(profile_transactions_as_seller)
-        all_complaints_count = Complaint.objects.filter(against_user=self.user)
+        all_complaints_count = len(Complaint.objects.filter(against_user=self.user))
 
         # Calculate average rating
         ratings = Rating.objects.filter(rated_user=self.user)
@@ -71,38 +71,56 @@ class Profile(models.Model):
         transactions = Transaction.objects.filter(buyer=self.user) | Transaction.objects.filter(seller=self.user)
         ratings_gotten_total = 0
         ratings_gotten_count = 0
-        rating_given_count = 0
-        rating_given_total = 0
+        ratings_given_count = 0
+        ratings_given_total = 0
 
         # loop through them and find the users average rating
+        print(transactions)
         for transaction in transactions:
-            if transaction.buyer == self.user and transaction.rated_by_seller == True:
-                ratings_gotten_count += 1
-                ratings_gotten_total = ratings_gotten_total + transaction.buyer_rating
+            if transaction.buyer == self.user:
+                if transaction.rated_by_seller:
+                    ratings_gotten_count += 1
+                    # print(3)
+                    ratings_gotten_total += transaction.buyer_rating
+                if transaction.rated_by_buyer:
+                    ratings_given_count += 1
+                    ratings_given_total += transaction.seller_rating
+                    # print(33)
 
-            elif transaction.buyer == self.user and transaction.rated_by_buyer == True:
-                rating_given_count += 1
-                rating_given_total = rating_given_total + transaction.buyer_rating
+            elif transaction.seller == self.user:
+                if transaction.rated_by_seller:
+                    # print(34554)
+                    ratings_given_count += 1
+                    ratings_given_total += transaction.buyer_rating
+                if transaction.rated_by_buyer:
+                    # print(344444)
+                    ratings_gotten_count += 1
+                    ratings_gotten_total += transaction.seller_rating
 
-            elif transaction.seller == self.user and transaction.rated_by_seller == True:
-                rating_given_count += 1
-                rating_given_total = rating_given_total + transaction.buyer_rating
-
-            elif transaction.seller == self.user and transaction.rated_by_buyer == True:
-                ratings_gotten_count += 1
-                ratings_gotten_total = ratings_gotten_total + transaction.seller_rating
-
-        average_gotten_rating = ratings_gotten_total / ratings_gotten_count
-        average_given_rating = rating_given_total / rating_given_count
+        average_gotten_ratings = 0
+        average_given_ratings = 0
+        if ratings_gotten_count > 0:
+            average_gotten_ratings = ratings_gotten_total / ratings_gotten_count
+        if ratings_given_count > 0:
+            average_given_ratings = ratings_given_total / ratings_given_count
         # if their rating is less 2 and have more than 3 ratings, then they will be suspended
         # also if they are too mean or too generous, they are suspended
-        if ((average_gotten_rating < 2 and ratings_gotten_count < 3) or rating_given_count <= 3 and
-                (average_given_rating > 4 or average_given_rating < 2)):
+        # print(average_given_ratings, ratings_given_count)
+        # if (average_gotten_ratings < 2 and ratings_gotten_count > 3):
+        #     print("ll")
+        # if ((ratings_given_count >= 3) and
+        #         (not (2 <= average_given_ratings <= 4))):
+        #     print("pppp")
+        if (average_gotten_ratings < 2 and ratings_gotten_count > 3) or ((ratings_given_count >= 3) and
+                (not (2 <= average_given_ratings <= 4))):
+
             self.is_suspended = True
 
 
+
         #  if user has 5000+, and more than 5 transactions and no complaints, save them as a vip
-        if self.account_balance > 5000.00 and all_transactions_count > 5 and all_complaints_count <= 0:
+
+        if self.account_balance > 5000.00 and all_transactions_count >= 5 and all_complaints_count == 0:
             self.is_vip = True
         #     if the user doesn't meet these requirements, or he broke the last two, remove them from vip status
         else:

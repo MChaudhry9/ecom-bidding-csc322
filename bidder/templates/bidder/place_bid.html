@@ -92,6 +92,9 @@
                                     <button type="submit" class="w-full py-3 px-4 !rounded-button bg-custom text-white text-sm font-medium hover:bg-custom-600"> 
                                         Place Bid
                                     </button>
+                                    {% if request.user.profile.is_vip %}
+                                        <strong>10% for you because of vip membership</strong>
+                                    {% endif %}
                                     </div>    
                                     </form>              
                                     
