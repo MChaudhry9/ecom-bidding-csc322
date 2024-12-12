@@ -15,17 +15,30 @@ from django.urls import reverse_lazy
 
 
 def home_view(request):
-    if request.user.profile.is_suspended:
-        return redirect('suspended')
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Redirect to the suspended page if the user is suspended
+        if request.user.profile.is_suspended:
+            return redirect('suspended')
+
+    # Logic for anonymous or authenticated users
     return render(request, "bidder/home.html")
+
 
 # Visitor Views
 def browse_items(request):
-    """View to display all available items to visitors."""
-    if request.user.profile.is_suspended:
-        return render(request, "bidder/suspended.html")
+    """
+    View to display all available items to visitors.
+    """
+    if request.user.is_authenticated:
+        # Redirect suspended users to the suspended page
+        if request.user.profile.is_suspended:
+            return render(request, "bidder/suspended.html")
+
+    # Fetch available items
     items = Item.objects.filter(is_available=True)
     return render(request, "bidder/browse_items.html", {"items": items})
+
 
 
 
