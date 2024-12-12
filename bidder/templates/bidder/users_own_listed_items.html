@@ -1,4 +1,143 @@
-{% extends 'bidder/base.html' %}
+{% extends "bidder/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Your Listed Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-center w-full mt-8">
+        <div class="max-w-4xl w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+            <div class="text-center">
+                <img class="mx-auto h-12 w-auto" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Swebay"/>
+                <h2 class="mt-6 text-3xl font-bold text-gray-900">
+                    Your Listed Items
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">Manage and view bids on your sold items</p>
+            </div>
+
+            <ul class="space-y-6">
+                {% for item in all_items_with_details %}
+                <li class="border-2 border-gray-200 rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-gray-900">{{ item.name }}</h3>
+                    <p class="text-gray-700">Starting Price: ${{ item.starting_price }}</p>
+                    <p class="mt-4 text-sm font-medium text-gray-600">Bids:</p>
+                    <ul class="mt-2 space-y-4">
+                        {% for bid in item.bids %}
+                        <li class="flex justify-between items-center">
+                            <p class="text-gray-800">Bid: ${{ bid.amount }}</p>
+                            <form method="post" class="inline-block">
+                                {% csrf_token %}
+                                <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">Accept Bid</button>
+                                <input name="post_type" value="accept_bid" type="hidden"/> 
+                                <input name="bid_id" value="{{ bid.id }}" type="hidden"/>
+                            </form>
+                        </li>
+                        {% empty %}
+                        <li class="text-gray-500">No bids available for this item.</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% empty %}
+                <li class="text-gray-500">You have not listed any items yet.</li>
+                {% endfor %}
+            </ul>
+
+            <div class="text-center mt-8">
+                <p class="text-sm text-gray-600">
+                    <a href="{% url 'dashboard' %}" class="font-medium text-blue-600 hover:text-blue-800">Back to Dashboard</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+      <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div>
+                  <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">About</h3>
+                  <ul class="mt-4 space-y-4">
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">About Us</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Careers</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Press</a>
+                      </li>
+                  </ul>
+              </div>
+              <div>
+                  <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Support</h3>
+                  <ul class="mt-4 space-y-4">
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Help Center</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Safety Center</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Community Guidelines</a>
+                      </li>
+                  </ul>
+              </div>
+              <div>
+                  <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Legal</h3>
+                  <ul class="mt-4 space-y-4">
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy Policy</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms of Service</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Cookie Policy</a>
+                      </li>
+                  </ul>
+              </div>
+              <div>
+                  <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Connect</h3>
+                  <ul class="mt-4 space-y-4">
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-facebook-f mr-2"></i>
+                              Facebook
+                          </a>                        </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-twitter mr-2"></i>
+                              Twitter
+                          </a>                        </li>
+                      <li>
+                          <a href="#" class="text-base text-gray-500 hover:text-gray-900">                                <i class="fab fa-instagram mr-2"></i>
+                              Instagram
+                          </a>                        </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">                <div class="flex space-x-6 md:order-2">
+                  <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-twitter"></i>
+                  </a>
+                  <a href="#" class="text-gray-400 hover:text-gray-500">                        <i class="fab fa-instagram"></i>
+                  </a>
+              </div>
+              <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">                    © 2024 Swebay. All rights reserved.
+              </p>
+          </div>
+      </div>
+  </footer>
+</body>
+</html>
+{% endblock %}
+
+{% comment %} --------------------------------------------------------------------------------- {% endcomment %}
+{% comment %} {% extends 'bidder/base.html' %}
 {% block content %}
 <div class="m-4">
   {% for item in all_items_with_details %}
@@ -24,4 +163,4 @@
   {% endfor %}
 </div>
 
-{% endblock %}
+{% endblock %} {% endcomment %}
