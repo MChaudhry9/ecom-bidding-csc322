@@ -172,14 +172,27 @@ def withdraw_money(request):
 
 @login_required
 def rate_transaction(request, transaction_id):
-    transaction = get_object_or_404(Transaction, id=transaction_id, buyer=request.user)
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+
+    # get the user making this request
+    rater = request.user
 
     if request.method == "POST":
         rating = request.POST.get("rating")
         if rating:
-            transaction.item.rating = int(rating)  # Assuming 'rating' is a field in the Item model
-            transaction.item.has_rating = True
-            transaction.item.save()
+            # if the user making this request is the buyer, they want to rate the seller
+            if rater == transaction.buyer:
+
+                transaction.seller_rating = int(rating)  # Assuming 'rating' is a field in the Item model
+                transaction.rated_by_buyer = True
+                transaction.save()
+
+            # if the user making the request is the seller, they want to rate the buyer
+            else:
+                transaction.buyer_rating = int(rating)
+                transaction.rated_by_seller = True
+                transaction.save()
+
             messages.success(request, "Thank you for rating this item!")
         else:
             messages.error(request, "Please provide a valid rating.")
@@ -286,18 +299,37 @@ def dashboard(request):
     items = Item.objects.filter(owner=user)
     bids = Bid.objects.filter(bidder=user)
     transactions = Transaction.objects.filter(buyer=user) | Transaction.objects.filter(seller=user)
-    received_ratings = Transaction.objects.filter((Q(seller=user) | Q(buyer=user)) & Q(rating__isnull=False))
-    given_ratings = Transaction.objects.filter((Q(buyer=user) | Q(seller=user)) & Q(rating__isnull=False))
+    ratings_total = 0
+    ratings_count = 0
+
+    for transaction in transactions:
+        if transaction.buyer == user and transaction.rated_by_seller == True:
+            ratings_count += 1
+            ratings_total = ratings_total + transaction.buyer_rating
+        elif transaction.seller == user and transaction.rated_by_buyer == True:
+            ratings_count += 1
+            ratings_total = ratings_total + transaction.seller_rating
+
+
+    average_rating = ratings_total/ratings_count
+
+
+
+    # received_ratings = Transaction.objects.filter((Q(seller=user) | Q(buyer=user)) & Q(rating__isnull=False))
+    # given_ratings = Transaction.objects.filter((Q(buyer=user) | Q(seller=user)) & Q(rating__isnull=False))
 
 
 
     complaints = Complaint.objects.filter(complainant=user)
 
-    rated_transactions = transactions.filter(buyer=user, item__has_rating=True)
+    # rated_transactions = transactions.filter(buyer=user, item__has_rating=True)
 
     # Prepare unrated transactions (only for buyer's perspective)
-    unrated_transactions = transactions.filter(buyer=user, item__has_rating=False)
-
+    unrated_transactions = transactions.filter(buyer=user, rated_by_buyer=False) | transactions.filter(seller=user, rated_by_seller=False)
+    # unrated_transactions = transactions.filter(
+    #     Q(buyer=user, rated_by_buyer=False) |
+    #     Q(seller=user, rated_by_seller=False)
+    # )
     # Update VIP status based on transactions and complaints
     profile.transactions_count = transactions.count()
     profile.complaints_count = complaints.count()
@@ -312,9 +344,10 @@ def dashboard(request):
         "transactions": transactions,
         "complaints": complaints,
         "unrated_transactions": unrated_transactions,  # Pass unrated transactions
-        "rated_transactions": rated_transactions,
-        "received_ratings": received_ratings,
-        "given_ratings": given_ratings,
+        "average_rating": average_rating,
+        # "rated_transactions": rated_transactions,
+        # "received_ratings": received_ratings,
+        # "given_ratings": given_ratings,
     }
 
     return render(request, "bidder/dashboard.html", context)
@@ -432,6 +465,14 @@ def suspended(request):
             suspended_user.profile.account_balance -= 50
             suspended_user.profile.is_suspended = False
             suspended_user.profile.save()
+
+            # restore thier review 5 so they can start fresh
+            transactions = Transaction.objects.filter(buyer=suspended_user, seller=suspended_user)
+            for transaction in transactions:
+                if transaction.buyer == suspended_user:
+                    transaction.buyer_rating = 5
+                elif transaction.seller == suspended_user:
+                    transaction.seller_rating = 5
             return redirect("browse_items")
     return render(request, "bidder/suspended.html")
 

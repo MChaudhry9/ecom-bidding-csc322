@@ -85,52 +85,52 @@
 
               <!-- Received Ratings -->
 
-              <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Ratings</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
-                  {% for rating in received_ratings %}
-                    <li>
-                      <strong>Item:</strong> {{ rating.item.name }} -
-                      <strong>Rated By:</strong>
-                      {% if rating.buyer == user %}
-                        {{ rating.seller.username }}
-                      {% else %}
-                        {{ rating.buyer.username }}
-                      {% endif %}
-                      -
-                      <strong>Rating:</strong> {{ rating.rating }} / 5
-                    </li>
-                  {% empty %}
-                    <li class="text-gray-500">No ratings received yet.</li>
-                  {% endfor %}
-                </ul>
-              </div>
+<!--              <div>-->
+<!--                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Ratings</h2>-->
+<!--                <ul class="list-disc pl-6 space-y-1 text-gray-700">-->
+<!--                  {% for rating in received_ratings %}-->
+<!--                    <li>-->
+<!--                      <strong>Item:</strong> {{ rating.item.name }} - -->
+<!--                      <strong>Rated By:</strong>-->
+<!--                      {% if rating.buyer == user %}-->
+<!--                        {{ rating.seller.username }}-->
+<!--                      {% else %}-->
+<!--                        {{ rating.buyer.username }}-->
+<!--                      {% endif %}-->
+<!--                      - -->
+<!--                      <strong>Rating:</strong> {{ rating.rating }} / 5-->
+<!--                    </li>-->
+<!--                  {% empty %}-->
+<!--                    <li class="text-gray-500">No ratings received yet.</li>-->
+<!--                  {% endfor %}-->
+<!--                </ul>-->
+<!--              </div>-->
 
               <!-- Given Ratings -->
 
-              <div>
-                <h2 class="text-lg font-bold text-gray-900 mb-2">Ratings You Gave</h2>
-                <ul class="list-disc pl-6 space-y-1 text-gray-700">
-                  {% for rating in given_ratings %}
-                    <li>
-                      <strong>Item:</strong> {{ rating.item.name }} -
-                      <strong>Rated:</strong>
-                      {% if rating.buyer == user %}
-                        {{ rating.seller.username }}
-                      {% else %}
-                        {{ rating.buyer.username }}
-                      {% endif %}
-                      -
-                      <strong>Rating:</strong> {{ rating.rating }} / 5
-                    </li>
-                  {% empty %}
-                    <li class="text-gray-500">No ratings given yet.</li>
-                  {% endfor %}
-                </ul>
-              </div>
+<!--              <div>-->
+<!--                <h2 class="text-lg font-bold text-gray-900 mb-2">Ratings You Gave</h2>-->
+<!--                <ul class="list-disc pl-6 space-y-1 text-gray-700">-->
+<!--                  {% for rating in given_ratings %}-->
+<!--                    <li>-->
+<!--                      <strong>Item:</strong> {{ rating.item.name }} - -->
+<!--                      <strong>Rated:</strong>-->
+<!--                      {% if rating.buyer == user %}-->
+<!--                        {{ rating.seller.username }}-->
+<!--                      {% else %}-->
+<!--                        {{ rating.buyer.username }}-->
+<!--                      {% endif %}-->
+<!--                      - -->
+<!--                      <strong>Rating:</strong> {{ rating.rating }} / 5-->
+<!--                    </li>-->
+<!--                  {% empty %}-->
+<!--                    <li class="text-gray-500">No ratings given yet.</li>-->
+<!--                  {% endfor %}-->
+<!--                </ul>-->
+<!--              </div>-->
   
   
-
+            <h3>Average Rating: {{ average_rating }}</h3>
 
             <!-- Unrated Transactions -->
             <div>
@@ -140,6 +140,7 @@
                             <li>
                                 <strong>Item:</strong> {{ transaction.item.name }} -
                                 <strong>Seller:</strong> {{ transaction.seller.username }} -
+                                <strong>Buyer:</strong> {{ transaction.buyer.username }} -
                                 <form method="POST" action="{% url 'rate_transaction' transaction.id %}" class="inline-block">
                                     {% csrf_token %}
                                     <label for="rating-{{ transaction.id }}">Rate:</label>

@@ -36,7 +36,10 @@ class Transaction(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sales")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     completed_at = models.DateTimeField(auto_now_add=True)
-    rating = models.PositiveIntegerField(null=True, blank=True)  # Allow null if no rating yet
+    seller_rating = models.PositiveIntegerField(null=True, blank=True) # Allow null if no rating yet
+    buyer_rating = models.PositiveIntegerField(null=True, blank=True)
+    rated_by_seller = models.BooleanField(default=False)
+    rated_by_buyer = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.buyer.username} bought {self.item.name} from {self.seller.username}"
@@ -63,6 +66,40 @@ class Profile(models.Model):
         ratings = Rating.objects.filter(rated_user=self.user)
         self.average_rating = sum(rating.rating for rating in ratings) / len(ratings) if ratings else 0
 
+        # calculate average rating
+        # get all transactions associated with user
+        transactions = Transaction.objects.filter(buyer=self.user) | Transaction.objects.filter(seller=self.user)
+        ratings_gotten_total = 0
+        ratings_gotten_count = 0
+        rating_given_count = 0
+        rating_given_total = 0
+
+        # loop through them and find the users average rating
+        for transaction in transactions:
+            if transaction.buyer == self.user and transaction.rated_by_seller == True:
+                ratings_gotten_count += 1
+                ratings_gotten_total = ratings_gotten_total + transaction.buyer_rating
+
+            elif transaction.buyer == self.user and transaction.rated_by_buyer == True:
+                rating_given_count += 1
+                rating_given_total = rating_given_total + transaction.buyer_rating
+
+            elif transaction.seller == self.user and transaction.rated_by_seller == True:
+                rating_given_count += 1
+                rating_given_total = rating_given_total + transaction.buyer_rating
+
+            elif transaction.seller == self.user and transaction.rated_by_buyer == True:
+                ratings_gotten_count += 1
+                ratings_gotten_total = ratings_gotten_total + transaction.seller_rating
+
+        average_gotten_rating = ratings_gotten_total / ratings_gotten_count
+        average_given_rating = rating_given_total / rating_given_count
+        # if their rating is less 2 and have more than 3 ratings, then they will be suspended
+        # also if they are too mean or too generous, they are suspended
+        if ((average_gotten_rating < 2 and ratings_gotten_count < 3) or rating_given_count <= 3 and
+                (average_given_rating > 4 or average_given_rating < 2)):
+            self.is_suspended = True
+
 
         #  if user has 5000+, and more than 5 transactions and no complaints, save them as a vip
         if self.account_balance > 5000.00 and all_transactions_count > 5 and all_complaints_count <= 0:
@@ -75,6 +112,14 @@ class Profile(models.Model):
         if self.is_vip and self.is_suspended:
             self.is_suspended = False
             self.is_vip = False
+
+        # if after all the processes, the user is deemed as suspended, increment suspension count
+        if self.is_suspended:
+            self.times_suspended = 1 + self.times_suspended
+
+        # if total suspension count reaches 3, delete the users profile
+        if self.times_suspended == 3:
+            self.delete()
 
         super().save(*args, **kwargs)
 
