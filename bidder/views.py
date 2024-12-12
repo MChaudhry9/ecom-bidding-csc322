@@ -388,3 +388,4 @@ def suspended(request):
             suspended_user.profile.save()
             return redirect("browse_items")
     return render(request, "bidder/suspended.html")
+

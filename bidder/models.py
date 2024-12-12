@@ -56,6 +56,11 @@ class Profile(models.Model):
         all_transactions_count = len(profile_transactions_as_buyer) + len(profile_transactions_as_seller)
         all_complaints_count = Complaint.objects.filter(against_user=self.user)
 
+        # Calculate average rating
+        ratings = Rating.objects.filter(rated_user=self.user)
+        self.average_rating = sum(rating.rating for rating in ratings) / len(ratings) if ratings else 0
+
+
         #  if user has 5000+, and more than 5 transactions and no complaints, save them as a vip
         if self.account_balance > 5000.00 and all_transactions_count > 5 and all_complaints_count <= 0:
             self.is_vip = True
@@ -128,3 +133,5 @@ class ItemRequest(models.Model):
 
     def __str__(self):
         return f"{self.user.username} requests {self.item_name} (${self.price_min} - ${self.price_max})"
+
+
