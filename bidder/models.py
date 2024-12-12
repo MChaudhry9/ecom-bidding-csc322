@@ -23,6 +23,8 @@ class Item(models.Model):
     is_available = models.BooleanField(default=True)  # False once sold/rented
     display_image = models.ImageField(upload_to="images/", null=True, blank=True)
     current_max_bid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    rating = models.PositiveIntegerField(null=True, blank=True)  # Rating value (1-5)
+    has_rating = models.BooleanField(default=False)  # To check if already rated
 
     def __str__(self):
         return self.name
@@ -34,6 +36,7 @@ class Transaction(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sales")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     completed_at = models.DateTimeField(auto_now_add=True)
+    rating = models.PositiveIntegerField(null=True, blank=True)  # Allow null if no rating yet
 
     def __str__(self):
         return f"{self.buyer.username} bought {self.item.name} from {self.seller.username}"

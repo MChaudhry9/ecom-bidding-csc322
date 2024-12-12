@@ -67,23 +67,100 @@
                 </ul>
             </div>
 
-            <!-- Transactions -->
+            <!-- Your Transactions -->
             <div>
                 <h2 class="text-lg font-bold text-gray-900 mb-2">Your Transactions</h2>
                 <ul class="list-disc pl-6 space-y-1 text-gray-700">
-                    {% if transactions %}
-                        {% for transaction in transactions %}
+                  {% for transaction in transactions %}
+                    <li>
+                      <strong>Item:</strong> {{ transaction.item.name }} -
+                      <strong>Amount:</strong> ${{ transaction.amount }} -
+                      <strong>Date:</strong> {{ transaction.completed|date:"M d, Y" }}
+                    </li>
+                  {% empty %}
+                    <li class="text-gray-500">No transactions available.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- Received Ratings -->
+
+              <div>
+                <h2 class="text-lg font-bold text-gray-900 mb-2">Your Ratings</h2>
+                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                  {% for rating in received_ratings %}
+                    <li>
+                      <strong>Item:</strong> {{ rating.item.name }} -
+                      <strong>Rated By:</strong>
+                      {% if rating.buyer == user %}
+                        {{ rating.seller.username }}
+                      {% else %}
+                        {{ rating.buyer.username }}
+                      {% endif %}
+                      -
+                      <strong>Rating:</strong> {{ rating.rating }} / 5
+                    </li>
+                  {% empty %}
+                    <li class="text-gray-500">No ratings received yet.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- Given Ratings -->
+
+              <div>
+                <h2 class="text-lg font-bold text-gray-900 mb-2">Ratings You Gave</h2>
+                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                  {% for rating in given_ratings %}
+                    <li>
+                      <strong>Item:</strong> {{ rating.item.name }} -
+                      <strong>Rated:</strong>
+                      {% if rating.buyer == user %}
+                        {{ rating.seller.username }}
+                      {% else %}
+                        {{ rating.buyer.username }}
+                      {% endif %}
+                      -
+                      <strong>Rating:</strong> {{ rating.rating }} / 5
+                    </li>
+                  {% empty %}
+                    <li class="text-gray-500">No ratings given yet.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+  
+  
+
+
+            <!-- Unrated Transactions -->
+            <div>
+                <h2 class="text-lg font-bold text-gray-900 mb-2">Rate Your Transactions</h2>
+                <ul class="list-disc pl-6 space-y-1 text-gray-700">
+                    {% for transaction in unrated_transactions %}
                             <li>
-                                <strong>Item:</strong> {{ transaction.name }} -
-                                <strong>Amount:</strong> ${{ transaction.starting_price }} -
-                                <strong>Date:</strong> {{ transaction.deadline|date:"M d, Y" }}
+                                <strong>Item:</strong> {{ transaction.item.name }} -
+                                <strong>Seller:</strong> {{ transaction.seller.username }} -
+                                <form method="POST" action="{% url 'rate_transaction' transaction.id %}" class="inline-block">
+                                    {% csrf_token %}
+                                    <label for="rating-{{ transaction.id }}">Rate:</label>
+                                    <select name="rating" id="rating-{{ transaction.id }}" required>
+                                        <option value="" disabled selected>Choose</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
                             </li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="text-gray-500">No transactions available.</li>
-                    {% endif %}
+                    {% empty %}
+                        <li class="text-gray-500">No transactions pending rating.</li>
+                    {% endfor %}
                 </ul>
             </div>
+  
+
 
             <!-- Complaints -->
             <div>

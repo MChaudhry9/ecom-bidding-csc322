@@ -11,6 +11,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from decimal import Decimal
 from django.urls import reverse_lazy
+from datetime import datetime
+from django.db.models import Q
+
 
 
 
@@ -168,18 +171,21 @@ def withdraw_money(request):
     return render(request, "bidder/withdraw_money.html")
 
 @login_required
-def rate_user(request, user_id):
-    """Allow users to rate another user after a transaction."""
-    if request.user.profile.is_suspended:
-        return redirect('suspended')
-    rated_user = get_object_or_404(User, id=user_id)
+def rate_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id, buyer=request.user)
+
     if request.method == "POST":
-        score = int(request.POST.get("score"))
-        comment = request.POST.get("comment", "")
-        Rating.objects.create(rater=request.user, rated_user=rated_user, score=score, comment=comment)
-        messages.success(request, "Rating submitted successfully.")
-        return redirect("browse_items")
-    return render(request, "bidder/rate_user.html", {"rated_user": rated_user})
+        rating = request.POST.get("rating")
+        if rating:
+            transaction.item.rating = int(rating)  # Assuming 'rating' is a field in the Item model
+            transaction.item.has_rating = True
+            transaction.item.save()
+            messages.success(request, "Thank you for rating this item!")
+        else:
+            messages.error(request, "Please provide a valid rating.")
+
+    return redirect("dashboard")
+
 
 @login_required
 def file_complaint(request):
@@ -276,13 +282,21 @@ def dashboard(request):
     is_vip = profile.is_vip
     user_status = "VIP" if is_vip else "Regular User"
 
+    # Fetch user's items, bids, transactions, and complaints
     items = Item.objects.filter(owner=user)
     bids = Bid.objects.filter(bidder=user)
-    
-    # Transactions: Ensure transactions are derived correctly
-    transactions = Item.objects.filter(owner=user, is_available=False)
-    
+    transactions = Transaction.objects.filter(buyer=user) | Transaction.objects.filter(seller=user)
+    received_ratings = Transaction.objects.filter((Q(seller=user) | Q(buyer=user)) & Q(rating__isnull=False))
+    given_ratings = Transaction.objects.filter((Q(buyer=user) | Q(seller=user)) & Q(rating__isnull=False))
+
+
+
     complaints = Complaint.objects.filter(complainant=user)
+
+    rated_transactions = transactions.filter(buyer=user, item__has_rating=True)
+
+    # Prepare unrated transactions (only for buyer's perspective)
+    unrated_transactions = transactions.filter(buyer=user, item__has_rating=False)
 
     # Update VIP status based on transactions and complaints
     profile.transactions_count = transactions.count()
@@ -297,9 +311,14 @@ def dashboard(request):
         "bids": bids,
         "transactions": transactions,
         "complaints": complaints,
+        "unrated_transactions": unrated_transactions,  # Pass unrated transactions
+        "rated_transactions": rated_transactions,
+        "received_ratings": received_ratings,
+        "given_ratings": given_ratings,
     }
 
     return render(request, "bidder/dashboard.html", context)
+
 
 
 
@@ -358,16 +377,19 @@ def users_own_listed_items(request):
         owner = bid.item.owner
         bidder = bid.bidder
 
-        # Handle the transaction logic
-        if bidder.profile.account_balance > bid.amount:
-            # Deduct amount based on VIP status
+        # Ensure the bidder has sufficient balance
+        if bidder.profile.account_balance >= bid.amount:
+            # Deduct amount from bidder based on VIP status
             if bidder.profile.is_vip:
-                bidder.profile.account_balance -= (bid.amount - (bid.amount * 0.1))
+                final_amount = bid.amount * 0.9  # 10% discount
             else:
-                bidder.profile.account_balance -= bid.amount
+                final_amount = bid.amount
 
-            # Credit the owner's account
-            owner.profile.account_balance += bid.amount
+            # Deduct the amount from the bidder's account
+            bidder.profile.account_balance -= final_amount
+
+            # Add the amount to the owner's account
+            owner.profile.account_balance += final_amount
 
             # Mark the item as sold/rented
             item.is_available = False
@@ -377,11 +399,19 @@ def users_own_listed_items(request):
             owner.profile.save()
             bidder.profile.save()
 
+            # Create transactions for both buyer and seller
+            Transaction.objects.create(
+                buyer=bidder,
+                seller=owner,
+                item=item,
+                amount=final_amount,
+                completed_at=datetime.now()
+            )
+
     # Prepare the data for rendering
     logged_in_user = request.user
     all_items = Item.objects.filter(owner=logged_in_user, is_available=True)
     all_items_with_details = []
-
     for item in all_items:
         all_bids = Bid.objects.filter(item=item)
         all_items_with_details.append({
@@ -391,10 +421,7 @@ def users_own_listed_items(request):
             "bids": all_bids,
         })
 
-    # Render the template
-    return render(request, "bidder/users_own_listed_items.html", context={
-        "all_items_with_details": all_items_with_details
-    })
+    return render(request, "bidder/users_own_listed_items.html", context={"all_items_with_details": all_items_with_details})
 
 
 

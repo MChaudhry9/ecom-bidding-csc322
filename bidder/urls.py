@@ -17,7 +17,6 @@ urlpatterns = [
     path("items/<int:item_id>/bid/", views.place_bid, name="place_bid"),
     path("deposit/", views.deposit_money, name="deposit_money"),
     path("withdraw/", views.withdraw_money, name="withdraw_money"),
-    path("rate/<int:user_id>/", views.rate_user, name="rate_user"),
     path("file_complaint/", views.file_complaint, name="file_complaint"),
     path('handle_complaints/', views.handle_complaints, name='handle_complaints'),
     path("resolve_complaint/<int:complaint_id>/", views.resolve_complaint, name="resolve_complaint"),
@@ -27,5 +26,7 @@ urlpatterns = [
     path('browse-requests/', views.browse_requests, name='browse_requests'),
     path('users-own-listed-items/', views.users_own_listed_items, name='users_own_listed_items'),
     path("suspended/", views.suspended, name='suspended'),
+    path('rate-transaction/<int:transaction_id>/', views.rate_transaction, name='rate_transaction'),
+
 
 ]
