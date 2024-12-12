@@ -291,9 +291,14 @@ def logout_confirmation(request):
 def dashboard(request):
     if request.user.profile.is_suspended:
         return redirect('suspended')
-
+    
+    profile = request.user.profile
     user = request.user
-    profile = user.profile
+
+    if user.profile.is_forced_out:
+        return redirect("apply_to_quit")
+
+    
 
     # Fetch account-related details
     account_balance = profile.account_balance
@@ -483,3 +488,26 @@ def suspended(request):
             return redirect("browse_items")
     return render(request, "bidder/suspended.html")
 
+
+def suspend_user(user):
+    profile = user.profile
+    profile.times_suspended += 1
+
+    if profile.times_suspended >= 3:
+        profile.is_suspended = True
+        profile.is_forced_out = True  # Mark as forced out
+    else:
+        profile.is_suspended = True  # Normal suspension
+
+    profile.save()
+
+
+@login_required
+def apply_to_quit(request):
+    if request.method == "POST":
+        # Handle quitting logic
+        request.user.delete()  # Or mark the user as inactive
+        messages.success(request, "You have successfully quit the system.")
+        return redirect("home")
+
+    return render(request, "bidder/apply_to_quit.html")

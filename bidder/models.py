@@ -51,6 +51,8 @@ class Profile(models.Model):
     is_vip = models.BooleanField(default=False)
     is_suspended = models.BooleanField(default=False)
     times_suspended = models.IntegerField(default=0)
+    is_forced_out = models.BooleanField(default=False) 
+    
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

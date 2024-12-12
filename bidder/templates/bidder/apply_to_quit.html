@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply to Quit</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply to Quit the System</h1>
+        <p>If you wish to leave the system, please confirm your decision below. This action will deactivate your account, and you'll need to reapply if you wish to return.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="reason">Reason for Quitting (Optional):</label>
+                <textarea id="reason" name="reason" rows="4" placeholder="Share your reason for quitting, if you want..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmation">Please type "QUIT" to confirm:</label>
+                <input type="text" id="confirmation" name="confirmation" placeholder="Type 'QUIT' here" required>
+            </div>
+
+            <button type="submit" class="btn btn-danger">Confirm Quit</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
