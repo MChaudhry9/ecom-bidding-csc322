@@ -48,20 +48,26 @@ def vip(request):
 
 
 def apply_to_become_user(request):
-    """View for visitors to apply to become registered users."""
-    if request.user.profile.is_suspended:
-        return redirect('suspended')
+    """
+    View for visitors to apply to become registered users.
+    """
+    if request.user.is_authenticated:
+        if request.user.profile.is_suspended:
+            return redirect("suspended")
+
     if request.method == "POST":
         anti_bot_answer = request.POST.get("anti_bot_answer")
         username = request.POST.get("username")
         password = request.POST.get("password")
-        new_application = Application(anti_bot_answer=anti_bot_answer, username=username, password=password)
+        new_application = Application(
+            anti_bot_answer=anti_bot_answer, username=username, password=password
+        )
         new_application.save()
         messages.success(request, "Application submitted successfully. Please wait for approval.")
         return redirect("browse_items")
-
     else:
         return render(request, "bidder/apply_to_become_user.html")
+
 
 
 # User Views
