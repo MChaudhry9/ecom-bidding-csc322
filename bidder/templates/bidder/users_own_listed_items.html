@@ -32,8 +32,10 @@
                         {% for bid in item.bids %}
                         <li class="flex justify-between items-center">
                             <p class="text-gray-800">Bid: ${{ bid.amount }}</p>
+                            <h2>{{ bid.bidder }}</h2>
                             <form method="post" class="inline-block">
                                 {% csrf_token %}
+
                                 <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">Accept Bid</button>
                                 <input name="post_type" value="accept_bid" type="hidden"/> 
                                 <input name="bid_id" value="{{ bid.id }}" type="hidden"/>
@@ -149,7 +151,9 @@
         <div>
           <p class="inline-block">bid: {{ bid }}</p>
           <form method="post" class="inline-block">
+
             {% csrf_token %}
+
             <button class="inline-block p-2 bg-blue-200 rounded-sm">Accept bid</button>
             <input name="post_type" value="accept_bid" hidden>
             <input name="bid_id" value="{{ bid.id }}" hidden>
