@@ -82,13 +82,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Landing Page](https://github.com/MChaudhry9/ecom-bidding-csc322/blob/master/project_images/swebayLandingPage.png)
 
 Swebay is an e-bidding platform designed to provide a secure, user-friendly, and efficient environment where users can engage in online auctions. The platform supports various types of transactions including item listings, bidding, purchases, and user ratings. The primary stakeholders of the system include general users, super users, and VIP users, each having distinct levels of access and capabilities within the platform. Additionally, the system ensures secure authentication, handles user suspensions based on performance, and offers exclusive privileges for VIP users.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Features
+![Items](https://github.com/MChaudhry9/ecom-bidding-csc322/blob/master/project_images/swebayItems.png)
 * User registration with validation to prevent bots from accessing the system.
 * Item listings with prices and deadlines for bids.
 * Bidding and transaction processing, with money transfers from buyers to sellers.
