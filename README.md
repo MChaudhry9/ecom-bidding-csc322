@@ -83,7 +83,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Swebay is an innovative online e-bidding platform designed to facilitate secure and efficient auction processes for both buyers and sellers. With robust features and a focus on user experience, Swebay ensures a seamless experience for all participants.
+Swebay is a secure online platform that allows users to list items for auction, place bids, and complete transactions seamlessly. It includes features like user roles (Visitors, Registered Users, Super Users, VIP Users), bot prevention, complaint handling, rating systems, and VIP-exclusive live bidding sessions.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
