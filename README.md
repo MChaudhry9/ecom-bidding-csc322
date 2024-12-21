@@ -63,6 +63,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#entity-relation-diagram">Entity-Relation Diagram</a></li>
         <li><a href="#technologies-used">Technologies Used</a></li>
+        <li><a href="#software-requirements-specification-srs">Software Requirements Specification (SRS)</a></li>
       </ul>
     </li>
     <li>
@@ -83,15 +84,18 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Swebay is a secure online platform that allows users to list items for auction, place bids, and complete transactions seamlessly. It includes features like user roles (Visitors, Registered Users, Super Users, VIP Users), bot prevention, complaint handling, rating systems, and VIP-exclusive live bidding sessions.
+Swebay is an e-bidding platform designed to provide a secure, user-friendly, and efficient environment where users can engage in online auctions. The platform supports various types of transactions including item listings, bidding, purchases, and user ratings. The primary stakeholders of the system include general users, super users, and VIP users, each having distinct levels of access and capabilities within the platform. Additionally, the system ensures secure authentication, handles user suspensions based on performance, and offers exclusive privileges for VIP users.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Features
-* User Roles: Supports distinct roles like Visitors, Registered Users, Super Users, and VIP Users, each with specific privileges.
-* Real-time Auctions: Participate in live bidding sessions for high engagement.
-* Security: Features bot prevention and secure payment processing.
-* Rating System: Enables users to leave feedback and rate sellers for transparency.
+* User registration with validation to prevent bots from accessing the system.
+* Item listings with prices and deadlines for bids.
+* Bidding and transaction processing, with money transfers from buyers to sellers.
+* A rating system where users evaluate each other after transactions, impacting user status.
+* A VIP system that rewards users with premium privileges for positive engagement.
+* A creative feature that includes exclusive events for VIPs, such as live bidding sessions.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -111,7 +115,9 @@ Swebay is a secure online platform that allows users to list items for auction, 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Software Requirements Specification (SRS)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -150,22 +156,27 @@ In your terminal paste the following commands:
 
 <!-- USAGE EXAMPLES -->
 ## How it Works
-
-1. Item Listing
-
+1. **Item Listing**  
    * Registered users can create detailed listings for items they wish to auction, specifying starting bids and auction durations.
 
-2. User Participation
+2. **User Roles and Participation**  
+   * **Visitors**: Browse items and apply for registration.  
+   * **Registered Users**: Place bids, list items for auction, and participate in live auctions.  
+   * **VIP Users**: Access live bidding sessions and exclusive features.  
 
-   * Visitors can browse items, while registered users can place bids or participate in live auctions.
+3. **Auction Process**  
+   * The system updates bid information in real time, ensuring all participants have the latest updates.  
 
-3. Auction Process
+4. **Transaction Completion**  
+   * Once an auction ends, the winner is notified, and secure payment and item transfer processes are initiated.  
+   * Ratings are exchanged, and complaints, if any, are managed by Super Users.  
 
-   * The system updates bid information in real time, ensuring all participants have the latest updates.
+5. **Platform Security**  
+   * Includes authentication, bot prevention, and user management with a strike-based suspension system for bad behavior.  
 
-4. Transaction Completion
+6. **VIP Privileges**  
+   * VIPs enjoy premium perks like live bidding and exclusive auctions.
 
-   * Once an auction ends, the winner is notified, and secure payment and item transfer processes are initiated.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
