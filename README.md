@@ -17,25 +17,26 @@
 *** See the bottom of this document for the declaration of the reference variables
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![project_license][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
+-->
 
 
 <!-- PROJECT LOGO -->
+<!--
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
-
-<h3 align="center">project_title</h3>
-
+-->
+<h1 align="center">Swebay: An online e-bidding platform</h1>
+<!--
   <p align="center">
     project_description
     <br />
@@ -49,7 +50,7 @@
     <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
-
+-->
 
 
 <!-- TABLE OF CONTENTS -->
@@ -59,22 +60,19 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#system">System Architecture</a></li>
+        <li><a href="#technologies-used">Technologies Used</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#how-it-works">How it Works</a></li>
+    <li><a href="#top-contributors">Top Contributors</a></li>
   </ol>
 </details>
 
@@ -85,23 +83,23 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
+Swebay is an innovative online e-bidding platform designed to facilitate secure and efficient auction processes for both buyers and sellers. With robust features and a focus on user experience, Swebay ensures a seamless experience for all participants.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Features
+* User Roles: Supports distinct roles like Visitors, Registered Users, Super Users, and VIP Users, each with specific privileges.
+* Real-time Auctions: Participate in live bidding sessions for high engagement.
+* Security: Features bot prevention and secure payment processing.
+* Rating System: Enables users to leave feedback and rate sellers for transparency.
 
-
-### Built With
+### Technologies Used
 
 * [![Django](https://img.shields.io/badge/Django-20232A?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
 * [![Python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 * [![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 * [![CSS](https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 * [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-
-
-
-
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -119,25 +117,21 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    git clone https://github.com/MChaudhry9/ecom-bidding-csc322.git
    ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-3. Install Dependencies
+2. Install Dependencies
   ```sh
   pip install django pandas pillow
   ```
-4. Set Up the Database
+3. Set Up the Database
 In your terminal paste the following commands:
   ```sh
   python manage.py makemigrations
   python manage.py migrate
   ```
-5. Run the Development Server
+4. Run the Development Server
   ```sh
   python manage.py runserver
   ```
-6. Change git remote url to avoid accidental pushes to base project
+5. Change git remote url to avoid accidental pushes to base project
    ```sh
    git remote set-url origin github_username/repo_name
    git remote -v # confirm the changes
@@ -148,82 +142,41 @@ In your terminal paste the following commands:
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## How it Works
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+1. Item Listing
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+   * Registered users can create detailed listings for items they wish to auction, specifying starting bids and auction durations.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+2. User Participation
 
+   * Visitors can browse items, while registered users can place bids or participate in live auctions.
 
+3. Auction Process
 
-<!-- ROADMAP -->
-## Roadmap
+   * The system updates bid information in real time, ensuring all participants have the latest updates.
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+4. Transaction Completion
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+   * Once an auction ends, the winner is notified, and secure payment and item transfer processes are initiated.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 
 <!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Top contributors:
 
-<a href="https://github.com/github_username/repo_name/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
-</a>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the project_license. See `LICENSE.txt` for more information.
+* Mamuna Chaudhry
+* Brandon B
+* Ratul Bin Rasul
+* Kalelo Dukuray
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
