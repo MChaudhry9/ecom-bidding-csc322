@@ -61,7 +61,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#features">Features</a></li>
-        <li><a href="#system">System Architecture</a></li>
+        <li><a href="#entity-relation-diagram">Entity-Relation Diagram</a></li>
         <li><a href="#technologies-used">Technologies Used</a></li>
       </ul>
     </li>
@@ -92,6 +92,13 @@ Swebay is a secure online platform that allows users to list items for auction, 
 * Real-time Auctions: Participate in live bidding sessions for high engagement.
 * Security: Features bot prevention and secure payment processing.
 * Rating System: Enables users to leave feedback and rate sellers for transparency.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Entity-Relation Diagram
+![Flowchart](https://github.com/MChaudhry9/ecom-bidding-csc322/blob/master/project_images/swebay%20diagram.png) 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ### Technologies Used
 
