@@ -116,7 +116,7 @@ Swebay is an e-bidding platform designed to provide a secure, user-friendly, and
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Software Requirements Specification (SRS)
-
+[Click here to open the SRS](https://github.com/MChaudhry9/ecom-bidding-csc322/blob/master/project_report/CSC%20322%20Project%20Report.pdf)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
