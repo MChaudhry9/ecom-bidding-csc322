@@ -35,7 +35,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 -->
-<h1 align="center">Swebay: An online e-bidding platform</h1>
+<h1 align="center">Swebay: An e-bidding platform</h1>
 <!--
   <p align="center">
     project_description
